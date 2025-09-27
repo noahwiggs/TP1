@@ -27,6 +27,12 @@ def main():
 
     m_pr_1, m_pr_2, m_0 = me.mass_estimation(X, prop1, prop2)
 
+    #m_pr_1, m_pr_2, m_0 = me.mass_estimation(0.4, 'LOX_LH2', 'LOX_RP1')
+                    # where def mass_estimation(X, stage_1_mixture, stage_2_mixture)
+
+    # inside mass_estimation:
+        # Isp = Isp_values[stage_1_mixture]
+
 
 if __name__ == '__main__':
     main()
