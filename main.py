@@ -24,7 +24,7 @@ def main():
     X = 0.1 #
     prop1 = 1
     prop2 = 1
-
+    
     m_pr_1, m_pr_2, m_0 = me.mass_estimation(X, prop1, prop2)
 
     #m_pr_1, m_pr_2, m_0 = me.mass_estimation(0.4, 'LOX_LH2', 'LOX_RP1')
