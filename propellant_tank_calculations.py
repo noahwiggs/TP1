@@ -136,7 +136,7 @@ def find_cyl_tank_dim(
     volume = volume / tank_amount
 
     # find height
-    if height == np.nan:
+    if np.isnan(height):
         a_sphere = 4 * np.pi * radius**2
         v_sphere = (4/3) * np.pi * radius**3
         v_cyl = volume - v_sphere
