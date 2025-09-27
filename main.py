@@ -1,5 +1,15 @@
 import mass_estimation_part2 as me
-import dictionaries as dict
+from dictionaries import (
+    Isp_values,
+    Thrust_stage1,
+    Thrust_stage2,
+    Expansion_ratio_stage1,
+    Expansion_ratio_stage2,
+    Chamber_pressure_stage1,
+    Chamber_pressure_stage2,
+    fuel_ratios,
+    prop_density
+)
 
 def main():
     """
