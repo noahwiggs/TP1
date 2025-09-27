@@ -81,7 +81,7 @@ fuel_ratios = {
 }
 
 # prop name : density (kg/m3)
-prop_density={
+prop_densities={
     'LH2' : 71, 
     'LOX' : 1140, 
     'RP1' : 820, 
