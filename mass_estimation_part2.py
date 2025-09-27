@@ -1,3 +1,4 @@
+from dictionaries import (Isp_values)
 
 
 def mass_estimation(X, prop1, prop2):
@@ -8,6 +9,9 @@ def mass_estimation(X, prop1, prop2):
     
     Inputs:
     X (float): stage 1 dV fraction
+    prop1 (string): stage 1 Propellant Mixture
+    prop2 (string): stage 2 Propellant Mixture
+
 
     Outputs:
     m_pr_1 (float): mass of stage 1 propellant
@@ -24,8 +28,9 @@ def mass_estimation(X, prop1, prop2):
     stage_1_dv = dv_req * (X / 100)
     stage_2_dv = dv_req * (1 - X/100)
 
-    stage_1_Isp = prop1["Isp"]
-    stage_2_Isp = prop2["Isp"]
+    stage_1_Isp = Isp_values[prop1]
+    stage_2_Isp = Isp_values[prop2]
+
 
     ## Stage 2
     #Find mass ratio
