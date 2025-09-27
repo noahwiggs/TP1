@@ -140,3 +140,38 @@ def find_cyl_tank_dim(
 
 
     return tank_surface_area, tank_radius, tank_height
+
+
+def find_insulation_mass(tank_area: float, tank_amount: int = 1, propellant: str = '') -> float:
+    """
+    Input:
+    tank_area   (float): surface area of the tank
+    tank_amount (int)  : number of tanks
+    propellant  (str)  : type of propellant
+
+    Output:
+    insulation_mass (float): total mass of the insulation:
+
+    ----------
+    Given tank area and number of tanks, find the total mass of the insulation.
+    NOTE: If the proopellant is LH2, you need to let the function know
+
+    Usage Examples:
+        # Generic Propellant
+        insulation_m = find_insulation_mass(10000)
+        # Generic Propellant 3 tanks
+        insulation_m = find_insulation_mass(10000, 3)
+        # LH2
+        insulation_m = find_insulation_mass(10000, propellant = 'LH2')
+    """
+    propellant = propellant.upper()
+    if propellant not in ['LH2', '']:
+        raise ValueError('Unsupported Propellant type, use LH2 or leave blank')
+    if not isinstance(tank_amount, int) or tank_amount < 1:
+        raise ValueError('Tank amount must be positive integer (defaults to 1)')
+
+    insulation_mass = 2.88 * tank_area if propellant == 'LH2' else 1.123 * tank_area
+
+    insulation_mass *= tank_amount 
+
+    return insulation_mass
