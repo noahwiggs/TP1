@@ -121,6 +121,12 @@ def find_cyl_tank_dim(
 
         Radius of one tank, height of one tank, surface area of one tank.
 
+
+    ==============================
+    ** IMPORTANT **:
+    NOTE: DIMENSIONS ARE PER TANK
+    ==============================
+
     Example Call:
         area, radius, height = find_cyl_tank_dim(
             volume = 100000,
