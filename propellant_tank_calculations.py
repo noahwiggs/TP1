@@ -1,4 +1,6 @@
 from typing import Tuple, Dict
+import numpy as np
+from scipy.optimize import fsolve
 
 def find_prop_mass_volume(
         propellant_mass: float, 
@@ -55,7 +57,7 @@ def find_prop_mass_volume(
 def find_cyl_tank_dim(
         volume: float, 
         radius: float = 2.6, 
-        height: float = 0, 
+        height: float = np.nan, 
         tank_amount: int = 1
         ) -> Tuple[float, float, float]:
     """
@@ -73,6 +75,7 @@ def find_cyl_tank_dim(
     This code calculates the dimensions (area, radius, height) of a cylindrical
     propallent tank.
     This code assumes a cylindrical tank with hemispherical end caps
+    NOTE: Tank height includes radius of hemispherical end caps
 
     There are three ways to use this code:
     1) Find height of tank given/assuming constant radius
@@ -107,8 +110,33 @@ def find_cyl_tank_dim(
             )
         Code will assume 2.6m for radius if no radius or height is provided
     """
-    tank_surface_area = 0
-    tank_radius = radius
-    tank_height = height
+    
+    # Determine number of tanks
+    if not isinstance(tank_amount, int) or tank_amount < 1:
+        raise ValueError('Tank amount must be a positive integer')
+
+    volume = volume / tank_amount
+
+    # find height
+    if height == np.nan:
+        a_sphere = 4 * np.pi * radius**2
+        v_sphere = (4/3) * np.pi * radius**3
+        v_cyl = volume - v_sphere
+        tank_height = v_cyl / (np.pi * radius**2) + 2 * radius
+        tank_radius = radius
+    else:
+        # find radius
+        def volume_eqn(r):
+            cyl_height = height - 2 * r
+            return np.pi * r**2 * cyl_height + (4/3) * np.pi * r**3 - volume
+        
+        radius_guess = 1
+        tank_radius = fsolve(volume_eqn, radius_guess)[0]
+        tank_height = height
+        
+    # find surface area
+
+    tank_surface_area = 4 * np.pi * tank_radius**2 + 2 * np.pi * tank_radius * (tank_height - tank_radius)
+
 
     return tank_surface_area, tank_radius, tank_height
