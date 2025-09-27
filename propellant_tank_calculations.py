@@ -8,7 +8,7 @@ def find_prop_mass_volume(
         fuel: str, 
         mixture: str, 
         fuel_ratios: Dict[str, float],
-        prop_density: Dict[str, float]
+        prop_densities: Dict[str, float]
         ) -> Tuple[float, float, float, float]:
     """
     Input:
@@ -56,7 +56,7 @@ def find_prop_mass_volume(
     
     if fuel_ratios == 1:
         oxidizer_mass = propellant_mass
-        oxidizer_volume = oxidizer_mass / prop_density[oxidizer]
+        oxidizer_volume = oxidizer_mass / prop_densities[oxidizer]
         fuel_mass = oxidizer_mass
         fuel_volume = oxidizer_volume
     else: 
@@ -67,8 +67,8 @@ def find_prop_mass_volume(
         fuel_mass = mass_per_part
 
         # deterrmine volume of the fluids
-        oxidizer_volume = oxidizer_mass / prop_density[oxidizer]
-        fuel_volume = fuel_mass / prop_density[fuel]
+        oxidizer_volume = oxidizer_mass / prop_densities[oxidizer]
+        fuel_volume = fuel_mass / prop_densities[fuel]
 
     return oxidizer_mass, oxidizer_volume, fuel_mass, fuel_volume
 
@@ -159,6 +159,39 @@ def find_cyl_tank_dim(
 
     return tank_surface_area, tank_radius, tank_height
 
+def find_tank_mass(tank_volume: float, propellant: str = '', tank_amount: int = 1) -> float:
+    """
+    Inputs:
+    tank_volume (float): volume of the tank (m3)
+    propellant  (str)  : name of the propellant
+    tank_amount (int)  : number of tanks
+
+    Output:
+    total_tank_mass   (float): mass of the tank (kg)
+    ----------
+    Given the volume of the propellant, find the mass of the propellant tanks
+
+    NOTE: If the propellant is LH2, you need to let the function know
+
+    Usage Examples: 
+        # Generic Propellant
+        tank_m = find_tank_mass(10000, tank_amount = 6)
+
+        # LH2
+        tank_m = find_tank_mass(10000, 'LH2') 
+    """
+
+    propellant = propellant.upper()
+    if propellant not in ['LH2', '']:
+        raise ValueError('Unsupported Propellant type, use LH2 or leave blank')
+    if not isinstance(tank_amount, int) or tank_amount < 1:
+        raise ValueError('Tank amount must be positive integer (defaults to 1)')
+    
+    total_tank_mass = 9.09 * tank_volume if propellant == 'LH2' else 12.16 * tank_volume
+
+    total_tank_mass *= tank_amount
+    return total_tank_mass
+
 
 def find_insulation_mass(tank_area: float, tank_amount: int = 1, propellant: str = '') -> float:
     """
@@ -168,7 +201,7 @@ def find_insulation_mass(tank_area: float, tank_amount: int = 1, propellant: str
     propellant  (str)  : type of propellant
 
     Output:
-    insulation_mass (float): total mass of the insulation:
+    total_insulation_mass (float): total mass of the insulation:
 
     ----------
     Given tank area and number of tanks, find the total mass of the insulation.
@@ -176,11 +209,11 @@ def find_insulation_mass(tank_area: float, tank_amount: int = 1, propellant: str
 
     Usage Examples:
         # Generic Propellant
-        insulation_m = find_insulation_mass(10000)
+        total_insulation_m = find_insulation_mass(10000)
         # Generic Propellant 3 tanks
-        insulation_m = find_insulation_mass(10000, 3)
+        total_insulation_m = find_insulation_mass(10000, 3)
         # LH2
-        insulation_m = find_insulation_mass(10000, propellant = 'LH2')
+        total_insulation_m = find_insulation_mass(10000, propellant = 'LH2')
     """
     propellant = propellant.upper()
     if propellant not in ['LH2', '']:
@@ -188,8 +221,8 @@ def find_insulation_mass(tank_area: float, tank_amount: int = 1, propellant: str
     if not isinstance(tank_amount, int) or tank_amount < 1:
         raise ValueError('Tank amount must be positive integer (defaults to 1)')
 
-    insulation_mass = 2.88 * tank_area if propellant == 'LH2' else 1.123 * tank_area
+    total_insulation_mass = 2.88 * tank_area if propellant == 'LH2' else 1.123 * tank_area
 
-    insulation_mass *= tank_amount 
+    total_insulation_mass *= tank_amount 
 
-    return insulation_mass
+    return total_insulation_mass

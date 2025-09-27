@@ -12,7 +12,8 @@ Isp_values = {
     'LOX_LH2'   : 366,
     'LOX_RP1'   : 311,
     'Solid'     : 269,
-    'Storables' : 285
+    'N2O4'      : 285,
+    'UDMH'      : 285
 }
 
 # mixturer name : Thrust (N)
@@ -21,7 +22,9 @@ Thrust_stage1 = {
     'LOX_LH2'   : 1860000,
     'LOX_RP1'   : 1920000,
     'Solid'     : 4500000,
-    'Storables' : 1750000
+    'N2O4'      : 1750000,
+    'UDMH'      : 1750000
+
 }
 
 # mixture name : Thrust (N)
@@ -30,7 +33,9 @@ Thrust_stage2 = {
     'LOX_LH2'   : 99000,
     'LOX_RP1'   : 61000,
     'Solid'     : 2940000,
-    'Storables' : 67000
+    'N2O4'      : 67000,
+    'UDMH'      : 67000
+
 }
 
 # mixture name : Area ratio
@@ -39,7 +44,9 @@ Expansion_ratio_stage1 = {
     'LOX_LH2'   : 2.4,
     'LOX_RP1'   : 3.7,
     'Solid'     : 6.6,
-    'Storables' : 1.5
+    'N2O4'      : 1.5,
+    'UDMH'      : 1.5
+
 }
 
 # mixture name : Area ratio
@@ -48,7 +55,9 @@ Expansion_ratio_stage2 = {
     'LOX_LH2'   : 2.15,
     'LOX_RP1'   : 0.92,
     'Solid'     : 2.34,
-    'Storables' : 1.13
+    'N2O4' : 1.13,
+    'UDMH' : 1.13
+
 }
 
 # mixture name : Pressure (Pa)
@@ -57,7 +66,9 @@ Chamber_pressure_stage1 = {
     'LOX_LH2'   : 20640000,
     'LOX_RP1'   : 25800000,
     'Solid'     : 10500000,
-    'Storables' : 15700000
+    'N2O4' : 15700000,
+    'UDMH' : 15700000
+
 }
 
 # mixture name : Pressure (Pa)
@@ -66,7 +77,9 @@ Chamber_pressure_stage2 = {
     'LOX_LH2'   : 4200000,
     'LOX_RP1'   : 6770000,
     'Solid'     : 5000000,
-    'Storables' : 14700000
+    'N2O4' : 14700000,
+    'UDMH' : 14700000
+
 }
 
 
@@ -76,7 +89,9 @@ fuel_ratios = {
     'LOX_LH2'   : 6.03,
     'LOX_RP1'   : 2.72,
     'Solid'     : 1,
-    'Storables' : 2.67
+    'N2O4'      : 2.67,
+    'UDMH'      : 2.67
+
 
 }
 
