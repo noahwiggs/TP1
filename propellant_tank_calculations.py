@@ -9,7 +9,7 @@ def find_prop_mass_volume(
         mixture: str, 
         fuel_ratios: Dict[str, float],
         prop_densities: Dict[str, float]
-        ) -> Tuple[float, float, float, float]:
+    ) -> Tuple[float, float, float, float]:
     """
     Input:
     propellant_mass (float): total propellant mass (kg)
@@ -77,7 +77,7 @@ def find_cyl_tank_dim(
         radius: float = 2.6, 
         height: float = np.nan, 
         tank_amount: int = 1
-        ) -> Tuple[float, float, float]:
+    ) -> Tuple[float, float, float]:
     """
     Input:
     volume      (float): volume of the propellant   (m3)
@@ -159,7 +159,11 @@ def find_cyl_tank_dim(
 
     return tank_surface_area, tank_radius, tank_height
 
-def find_tank_mass(tank_volume: float, propellant: str = '', tank_amount: int = 1) -> float:
+def find_tank_mass(
+        tank_volume: float,
+        propellant: str = '',
+        tank_amount: int = 1
+    ) -> float:
     """
     Inputs:
     tank_volume (float): volume of the tank (m3)
@@ -193,7 +197,11 @@ def find_tank_mass(tank_volume: float, propellant: str = '', tank_amount: int = 
     return total_tank_mass
 
 
-def find_insulation_mass(tank_area: float, tank_amount: int = 1, propellant: str = '') -> float:
+def find_insulation_mass(
+        tank_area: float, 
+        tank_amount: int = 1, 
+        propellant: str = ''
+    ) -> float:
     """
     Input:
     tank_area   (float): surface area of the tank
