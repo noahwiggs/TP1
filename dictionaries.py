@@ -8,98 +8,93 @@
 
 # mixture name : Isp (seconds)
 Isp_values = {
-    'LOX_CH4'   : 327,
-    'LOX_LH2'   : 366,
-    'LOX_RP1'   : 311,
-    'Solid'     : 269,
-    'Storables' : 285,
+    'LOX_LCH4'   : 327,
+    'LOX_LH2'    : 366,
+    'LOX_RP1'    : 311,
+    'Solid'      : 269,
+    'N2O4'       : 285,
+    'Storables'  : 285,
 }
 
 # mixturer name : Thrust (N)
 Thrust_stage1 = {
-    'LOX_CH4'   : 2260000,
-    'LOX_LH2'   : 1860000,
-    'LOX_RP1'   : 1920000,
-    'Solid'     : 4500000,
-    'Storables' : 1750000,
-
+    'LOX_LCH4'   : 2260000,
+    'LOX_LH2'    : 1860000,
+    'LOX_RP1'    : 1920000,
+    'Solid'      : 4500000,
+    'Storables'  : 1750000,
 
 }
 
 # mixture name : Thrust (N)
 Thrust_stage2 = {
-    'LOX_CH4'   : 745000,
-    'LOX_LH2'   : 99000,
-    'LOX_RP1'   : 61000,
-    'Solid'     : 2940000,
-    'Storables' : 67000,
-
+    'LOX_LCH4'   : 745000,
+    'LOX_LH2'    : 99000,
+    'LOX_RP1'    : 61000,
+    'Solid'      : 2940000,
+    'Storables'  : 67000,
 
 }
 
 # mixture name : Area ratio
 Expansion_ratio_stage1 = {
-    'LOX_CH4'   : 2.4,
-    'LOX_LH2'   : 2.4,
-    'LOX_RP1'   : 3.7,
-    'Solid'     : 6.6,
-    'Storables' : 1.5,
-
+    'LOX_LCH4'   : 2.4,
+    'LOX_LH2'    : 2.4,
+    'LOX_RP1'    : 3.7,
+    'Solid'      : 6.6,
+    'Storables'  : 1.5,
 
 }
 
 # mixture name : Area ratio
 Expansion_ratio_stage2 = {
-    'LOX_CH4'   : 1.5,
-    'LOX_LH2'   : 2.15,
-    'LOX_RP1'   : 0.92,
-    'Solid'     : 2.34,
-    'Storables' : 1.13,
-
+    'LOX_LCH4'   : 1.5,
+    'LOX_LH2'    : 2.15,
+    'LOX_RP1'    : 0.92,
+    'Solid'      : 2.34,
+    'Storables'  : 1.13,
 
 }
 
 # mixture name : Pressure (Pa)
 Chamber_pressure_stage1 = {
-    'LOX_CH4'   : 35160000,
-    'LOX_LH2'   : 20640000,
-    'LOX_RP1'   : 25800000,
-    'Solid'     : 10500000,
-    'Storables' : 15700000,
-
+    'LOX_LCH4'   : 35160000,
+    'LOX_LH2'    : 20640000,
+    'LOX_RP1'    : 25800000,
+    'Solid'      : 10500000,
+    'Storables'  : 15700000,
 
 }
 
 # mixture name : Pressure (Pa)
 Chamber_pressure_stage2 = {
-    'LOX_CH4'   : 10100000,
-    'LOX_LH2'   : 4200000,
-    'LOX_RP1'   : 6770000,
-    'Solid'     : 5000000,
-    'Storables' : 14700000,
-
+    'LOX_LCH4'   : 10100000,
+    'LOX_LH2'    : 4200000,
+    'LOX_RP1'    : 6770000,
+    'Solid'      : 5000000,
+    'Storables'  : 14700000,
 
 }
 
 
 # mixture name : oxidizer : fuel
 fuel_ratios = {
-    'LOX_CH4'   : 3.6,
-    'LOX_LH2'   : 6.03,
-    'LOX_RP1'   : 2.72,
-    'Solid'     : 1,
-    'Storables' : 2.67,
-
-
+    'LOX_LCH4'   : 3.6,
+    'LOX_LH2'    : 6.03,
+    'LOX_RP1'    : 2.72,
+    'Solid'      : 1,
+    'Storables'  : 2.67,
 
 }
 
 # prop name : density (kg/m3)
 prop_densities={
-    'LH2' : 71, 
-    'LOX' : 1140, 
-    'RP1' : 820, 
-    'LCH4' : 423, 
-    'Solid' : 1680, 
-    'N2O4' : 1442, 
-    'UDMH' : 791}
+    'LH2'        : 71, 
+    'LOX'        : 1140, 
+    'RP1'        : 820, 
+    'LCH4'       : 423, 
+    'Solid'      : 1680, 
+    'N204'       : 1442, 
+    'UDMH'       : 791
+    
+}
