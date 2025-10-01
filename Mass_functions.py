@@ -1,15 +1,35 @@
 import numpy as np
 
+# remove when done
+from dictionaries import (
+    Isp_values,
+    Thrust_stage1,
+    Thrust_stage2,
+    Expansion_ratio_stage1,
+    Expansion_ratio_stage2,
+    Chamber_pressure_stage1,
+    Chamber_pressure_stage2,
+    fuel_ratios,
+    prop_densities
+)
 
 # Rocket Engine Mass
 # Inputs:
-#   Thrust : Thrust produced by the engine [Newtons]
-#   Ae     : Exit area of nozzle [m^2]
-#   At     : Throat area of nozzle [m^2]
+#   Thrust      : Thrust produced by the engine [Newtons]
+#   Mixture     : Type of mixture, correlates to a specific Ae/At
+#   Stage number: Stage 1 or 2
 # Output:
 #   Mass of rocket engine [kg]
-def Rocket_Engine(Thrust, Ae, At):
-    return 7.81*10**(-4)*Thrust + 3.37*10**(-5)*Thrust*np.sqrt(Ae/At) + 59
+def Rocket_Engine(Thrust, mixture, stage_number):
+    if stage_number not in [1, 2]:
+        raise ValueError('Stage number must be 1 or 2')
+    
+    expansion_ratio = (Expansion_ratio_stage1[mixture] if stage_number == 1 
+                       else Expansion_ratio_stage2[mixture])
+
+    engine_mass = 7.81*10**(-4)*Thrust + 3.37*10**(-5)*Thrust*np.sqrt(expansion_ratio) + 59
+    
+    return engine_mass
 
 
 # Motor Casing Mass
@@ -61,8 +81,15 @@ def M_wiring(Mo, l):
 # Gimbal Mass
 # Inputs:
 #   Thrust : Thrust produced by the engine [Newtons]
-#   Po     : Chamber pressure [Pascals]
+#   Mixture: name of propellant mixture
+#   Stage_number: stage 1 or stage 2
 # Output:
 #   Gimbal mass [kg]
-def M_gimbals(Thrust, Po):
+def M_gimbals(Thrust, mixture, stage_number):
+
+    if stage_number not in [1, 2]:
+        raise ValueError('Stage number must be 1 or 2')
+    
+    Po = (Chamber_pressure_stage1[mixture] if stage_number == 1 
+                       else Chamber_pressure_stage2[mixture])
     return 237.8*(Thrust/Po)**0.9375
