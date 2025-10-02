@@ -1,7 +1,8 @@
 import propellant_tank_calculations as Calcs
 import Mass_functions as Mfunc
-from dictionaries import (fuel_ratios,prop_densities)
 import numpy as np
+from typing import Tuple, Dict
+
 
 '''
 Determine tank/casing/insulation mass for different propellant types.
@@ -28,13 +29,15 @@ Returns:
 '''
 
 def Check_Solid_and_Storables(
-        Prop: str, 
-        M_pr: float, 
-        tank_radius: float = 2.6, 
-        tank_height: 
-        float = np.nan, 
-        Num_Tank: int = 1
-    ):
+        Prop            : str, 
+        M_pr            : float,
+        fuel_ratios     : Dict[str, float],
+        prop_densities  : Dict[str, int],
+        tank_radius     : float = 2.6, 
+        tank_height     : float = np.nan, 
+        Num_Tank        : int = 1,
+
+    )-> Tuple[float, float, float]:
 
     '''
     Inputs: 
@@ -45,34 +48,74 @@ def Check_Solid_and_Storables(
         tank_height         (Float) : Preferred tank height (m). If NaN, Calcs.find_cyl_tank_dim can compute height.
 
     Outputs: 
-        M_Total             (Float) : Total mass of casing/tank/insulation (kg)
+        tank_total_mass             (Float) : Total mass of casing/tank/insulation (kg)
         tank_radius         (Float) : Final tank radius used (m)
         tank_height         (Float) : Final tank height used (m)
     '''
 
+    # Check for valid propellant name
+    if Prop not in [
+        'LOX_LH2'
+        'LOX_LCH4'
+        'LOX_RP1'
+        'Solids'
+        'Storables']:
+        raise ValueError('Invalid mixture name, check naming convention in main')
+    
     #Check if Solids
     if Prop == 'Solids':
-        Total_Mass = Num_Tank*Mfunc.Motor_Casing( M_pr/Num_Tank )
+        # Solids only has casing mass
+        tank_total_mass = Num_Tank*Mfunc.Motor_Casing(M_pr/Num_Tank)
 
     #Check if Storables
     elif Prop == 'Storables':
-        oxidizer_mass, oxidizer_volume, fuel_mass, fuel_volume = Calcs.find_prop_mass_volume( M_pr,'Storables', 'Storables', 'Storables', fuel_ratios, prop_densities)
+        # Storables does not need insulation
+        oxidizer_mass, oxidizer_volume, fuel_mass, fuel_volume = Calcs.find_prop_mass_volume(
+            M_pr,
+            'Storables',
+            'Storables',
+            'Storables',
+            fuel_ratios,
+            prop_densities
+        )
         Total_Volume = oxidizer_volume + fuel_volume
-        tank_surface_area, tank_radius, tank_height = Calcs.find_cyl_tank_dim( Total_Volume, tank_radius, tank_height, Num_Tank)
+        tank_surface_area, tank_radius, tank_height = Calcs.find_cyl_tank_dim(
+            Total_Volume,
+            tank_radius,
+            tank_height,
+            Num_Tank
+        )
 
-        Total_Mass = Calcs.find_tank_mass( Total_Volume, 'Storables', Num_Tank)
+        tank_total_mass = Calcs.find_tank_mass(Total_Volume, 'Storables', Num_Tank)
 
     else:
         Fuel = Prop[4:]
 
-        oxidizer_mass, oxidizer_volume, fuel_mass, fuel_volume = Calcs.find_prop_mass_volume( M_pr,'LOX', Fuel, Prop, fuel_ratios, prop_densities)
-        Total_Volume = oxidizer_volume + fuel_volume
-        tank_surface_area, tank_radius, tank_height = Calcs.find_cyl_tank_dim( Total_Volume, tank_radius, tank_height, Num_Tank)
-
-        Insulation_mass = Calcs.find_insulation_mass( tank_surface_area, Num_Tank, Prop)
-        Tank_Mass = Calcs.find_tank_mass( Total_Volume, 'Storables', Num_Tank)
+        oxidizer_mass, oxidizer_volume, fuel_mass, fuel_volume = Calcs.find_prop_mass_volume(
+            M_pr,
+            'LOX',
+            Fuel,
+            Prop,
+            fuel_ratios,
+            prop_densities
+        )
         
-        Total_Mass = Tank_Mass + Insulation_mass
+        Total_Volume = oxidizer_volume + fuel_volume
+        tank_surface_area, tank_radius, tank_height = Calcs.find_cyl_tank_dim(
+            Total_Volume,
+            tank_radius,
+            tank_height,
+            Num_Tank
+        )
+
+        Insulation_mass = Calcs.find_insulation_mass(
+            tank_surface_area,
+            Num_Tank,
+            Prop
+        )
+        Tank_Mass = Calcs.find_tank_mass(Total_Volume, 'Storables', Num_Tank)
+        
+        tank_total_mass = Tank_Mass + Insulation_mass
 
 
-    return Total_Mass, tank_radius, tank_height
+    return tank_total_mass, tank_radius, tank_height

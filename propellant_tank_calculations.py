@@ -8,7 +8,7 @@ def find_prop_mass_volume(
         fuel: str, 
         mixture: str, 
         fuel_ratios: Dict[str, float],
-        prop_densities: Dict[str, float]
+        prop_densities: Dict[str, int]
     ) -> Tuple[float, float, float, float]:
     """
     Input:

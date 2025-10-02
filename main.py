@@ -1,4 +1,4 @@
-import mass_estimation_part2 as me
+import mass_estimation_part2 as me2
 from dictionaries import (
     Isp_values,
     Thrust_stage1,
@@ -20,18 +20,33 @@ def main():
     4) Produce mass budget for each
 
     """
-    #Assumed or fixed vehicle properties
-    X = 0.1 #
-    prop1 = 1
-    prop2 = 1
+
+    """
+    --------------------------------
+    | DEFINE YOUR ROCKET PROPERTIES|
+    --------------------------------
+
+     Valid mixture names:
+        LOX_LH2
+        LOX_LCH4
+        LOX_RP1
+        Solids
+        Storables
+    """
+    X = 0.5 #
+    stage_1_mixture = 'LOX_LH2'
+    stage_2_mixture = 'Storables'
     
-    m_pr_1, m_pr_2, m_0 = me.mass_estimation(X, prop1, prop2)
+    m_pr_1, m_pr_2, m_0, m_0_2 = me2.mass_estimation(
+        X, 
+        stage_1_mixture, 
+        stage_2_mixture, 
+        Isp_values)
+    
+    
 
-    #m_pr_1, m_pr_2, m_0 = me.mass_estimation(0.4, 'LOX_LH2', 'LOX_RP1')
-                    # where def mass_estimation(X, stage_1_mixture, stage_2_mixture)
 
-    # inside mass_estimation:
-        # Isp = Isp_values[stage_1_mixture]
+
 
 
 if __name__ == '__main__':
