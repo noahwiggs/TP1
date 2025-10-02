@@ -1,5 +1,6 @@
 import mass_estimation_part2 as me2
 import Mass_functions as Mfunc
+import thrust_convergance as tc
 from Check_Solid_and_Storables import Check_Solid_and_Storables
 from dictionaries import (
     Isp_values,
@@ -61,6 +62,13 @@ def main():
     # TODO : 
     # rocket_height = ...
     # wiring_mass = Mfunc.M_wiring(m_0, rocket_height)
+
+    # find thrust required
+    # TODO: Find other masses
+    # t_req1, t_req2 = tc.thrust_convergance(m_0, m_0_2, m_pr_1, m_pr_2, m_pl, stage_1_other_masses, stage_2_other_masses, s1_mixture, s2_mixture)
+
+    # find total rocket mass from thrust
+    # s1_m_0, s2_m_0 = tc.thrust_mass_calculations(m_pr_1, m_pr_2, m_pl, stage_1_other_masses, stage_2_other_masses, t_req1, t_req2, s1_mixture, s2_mixture)
     
     
 
