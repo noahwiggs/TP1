@@ -70,6 +70,9 @@ def main():
     # find total rocket mass from thrust
     # s1_m_0, s2_m_0 = tc.thrust_mass_calculations(m_pr_1, m_pr_2, m_pl, stage_1_other_masses, stage_2_other_masses, t_req1, t_req2, s1_mixture, s2_mixture)
     
+    # mass margin
+    # s1_m_0 *= 1.3
+    # s2_m_2 *= 1.3
     
 
 
