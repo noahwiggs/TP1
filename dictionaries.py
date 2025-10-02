@@ -6,8 +6,10 @@
 # Solid=dict(Isp=269, Thrust_st1=4500000, Thrust_st2=2940000, A_e1=6.6, A_e2=2.34, Pressure_st1=10500000, Pressure_st2=5000000)
 # Storeable=dict(Isp=285, Thrust_st1=1750000, Thrust_st2=67000, A_e1=1.5, A_e2=1.13, Pressure_st1=15700000, Pressure_st2=14700000)
 
+from typing import Dict
+
 # mixture name : Isp (seconds)
-Isp_values = {
+Isp_values: Dict[str, int] = {
     'LOX_LCH4'   : 327,
     'LOX_LH2'    : 366,
     'LOX_RP1'    : 311,
@@ -17,7 +19,7 @@ Isp_values = {
 }
 
 # mixturer name : Thrust (N)
-Thrust_stage1 = {
+Thrust_stage1: Dict[str, int] = {
     'LOX_LCH4'   : 2260000,
     'LOX_LH2'    : 1860000,
     'LOX_RP1'    : 1920000,
@@ -27,7 +29,7 @@ Thrust_stage1 = {
 }
 
 # mixture name : Thrust (N)
-Thrust_stage2 = {
+Thrust_stage2: Dict[str, int] = {
     'LOX_LCH4'   : 745000,
     'LOX_LH2'    : 99000,
     'LOX_RP1'    : 61000,
@@ -37,7 +39,7 @@ Thrust_stage2 = {
 }
 
 # mixture name : Area ratio
-Expansion_ratio_stage1 = {
+Expansion_ratio_stage1: Dict[str, float] = {
     'LOX_LCH4'   : 2.4,
     'LOX_LH2'    : 2.4,
     'LOX_RP1'    : 3.7,
@@ -47,7 +49,7 @@ Expansion_ratio_stage1 = {
 }
 
 # mixture name : Area ratio
-Expansion_ratio_stage2 = {
+Expansion_ratio_stage2: Dict[str, float] = {
     'LOX_LCH4'   : 1.5,
     'LOX_LH2'    : 2.15,
     'LOX_RP1'    : 0.92,
@@ -57,7 +59,7 @@ Expansion_ratio_stage2 = {
 }
 
 # mixture name : Pressure (Pa)
-Chamber_pressure_stage1 = {
+Chamber_pressure_stage1: Dict[str, int] = {
     'LOX_LCH4'   : 35160000,
     'LOX_LH2'    : 20640000,
     'LOX_RP1'    : 25800000,
@@ -67,7 +69,7 @@ Chamber_pressure_stage1 = {
 }
 
 # mixture name : Pressure (Pa)
-Chamber_pressure_stage2 = {
+Chamber_pressure_stage2: Dict[str, int] = {
     'LOX_LCH4'   : 10100000,
     'LOX_LH2'    : 4200000,
     'LOX_RP1'    : 6770000,
@@ -78,7 +80,7 @@ Chamber_pressure_stage2 = {
 
 
 # mixture name : oxidizer : fuel
-fuel_ratios = {
+fuel_ratios: Dict[str, float] = {
     'LOX_LCH4'   : 3.6,
     'LOX_LH2'    : 6.03,
     'LOX_RP1'    : 2.72,
@@ -88,7 +90,7 @@ fuel_ratios = {
 }
 
 # prop name : density (kg/m3)
-prop_densities={
+prop_densities: Dict[str, int] ={
     'LH2'        : 71, 
     'LOX'        : 1140, 
     'RP1'        : 820, 

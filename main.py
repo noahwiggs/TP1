@@ -1,4 +1,6 @@
 import mass_estimation_part2 as me2
+import Mass_functions as Mfunc
+from Check_Solid_and_Storables import Check_Solid_and_Storables
 from dictionaries import (
     Isp_values,
     Thrust_stage1,
@@ -34,16 +36,34 @@ def main():
         Storables
     """
     X = 0.5 #
-    stage_1_mixture = 'LOX_LH2'
-    stage_2_mixture = 'Storables'
+    s1_mixture = 'LOX_LH2'
+    s2_mixture = 'Storables'
+    tank_amount = 1
     
+    # start by finding part 1 values, gross and propellant mass of each stage
     m_pr_1, m_pr_2, m_0, m_0_2 = me2.mass_estimation(
         X, 
-        stage_1_mixture, 
-        stage_2_mixture, 
+        s1_mixture, 
+        s2_mixture, 
         Isp_values)
     
+    # determine tank/insulation/casing properties
+
+    s1_t_n_insul_m, s1_t_r, s1_t_h = Check_Solid_and_Storables(s1_mixture, m_pr_1)
+    s2_t_n_insul_m, s2_t_rm, s2_t_h = Check_Solid_and_Storables(s2_mixture, m_pr_2)
+
+    # determine mass of other elements
+
+    # TODO: 
+    # fairing_mass = Mfunc.M_fairing(A_fairing)
+    avionic_mass = Mfunc.M_avionic(m_0)
+
+    # TODO : 
+    # rocket_height = ...
+    # wiring_mass = Mfunc.M_wiring(m_0, rocket_height)
     
+    
+
 
 
 

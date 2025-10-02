@@ -1,17 +1,5 @@
 import numpy as np
-
-# remove when done
-from dictionaries import (
-    Isp_values,
-    Thrust_stage1,
-    Thrust_stage2,
-    Expansion_ratio_stage1,
-    Expansion_ratio_stage2,
-    Chamber_pressure_stage1,
-    Chamber_pressure_stage2,
-    fuel_ratios,
-    prop_densities
-)
+from typing import Dict
 
 # Rocket Engine Mass
 # Inputs:
@@ -20,12 +8,14 @@ from dictionaries import (
 #   Stage number: Stage 1 or 2
 # Output:
 #   Mass of rocket engine [kg]
-def Rocket_Engine(Thrust, mixture, stage_number):
-    if stage_number not in [1, 2]:
-        raise ValueError('Stage number must be 1 or 2')
-    
-    expansion_ratio = (Expansion_ratio_stage1[mixture] if stage_number == 1 
-                       else Expansion_ratio_stage2[mixture])
+def Rocket_Engine(
+        Thrust                  : float,
+        mixture                 : str,
+        Expansion_ratio_stage   : Dict[str, float],
+
+    )-> float:
+
+    expansion_ratio = Expansion_ratio_stage[mixture]
 
     engine_mass = 7.81*10**(-4)*Thrust + 3.37*10**(-5)*Thrust*np.sqrt(expansion_ratio) + 59
     
@@ -37,7 +27,7 @@ def Rocket_Engine(Thrust, mixture, stage_number):
 #   M_pr : Propellant mass [kg]
 # Output:
 #   Motor casing mass [kg]
-def Motor_Casing(M_pr):
+def Motor_Casing(M_pr: float)-> float:
     return 0.135*M_pr
 
 
@@ -46,7 +36,7 @@ def Motor_Casing(M_pr):
 #   Thrust : Thrust produced by the stage [Newtons]
 # Output:
 #   Thrust Structure mass [kg]
-def Struct_Mass(Thrust):
+def Struct_Mass(Thrust: float)-> float:
     return 2.25*10**(-4)*Thrust
 
 
@@ -55,7 +45,7 @@ def Struct_Mass(Thrust):
 #   A_fairing : Fairing surface area [m^2]
 # Output:
 #   Fairing mass [kg]
-def M_fairing(A_fairing):
+def M_fairing(A_fairing: float)-> float:
     return 4.95*A_fairing**1.15
 
 
@@ -64,7 +54,7 @@ def M_fairing(A_fairing):
 #   Mo : Stage initial mass [kg]
 # Output:
 #   Avionics mass [kg]
-def M_avionic(Mo):
+def M_avionic(Mo: float)-> float:
     return 10*Mo**0.361
 
 
@@ -74,7 +64,7 @@ def M_avionic(Mo):
 #   l  : Stage length [m]
 # Output:
 #   Wiring mass [kg]
-def M_wiring(Mo, l):
+def M_wiring(Mo: float, l: float)-> float:
     return 1.058*np.sqrt(Mo)*l**0.25
 
 
@@ -85,11 +75,12 @@ def M_wiring(Mo, l):
 #   Stage_number: stage 1 or stage 2
 # Output:
 #   Gimbal mass [kg]
-def M_gimbals(Thrust, mixture, stage_number):
+def M_gimbals(
+        Thrust                  : float,
+        mixture                 : str,
+        Chamber_pressure_stage  : Dict[str, int], 
+    )-> float:
 
-    if stage_number not in [1, 2]:
-        raise ValueError('Stage number must be 1 or 2')
-    
-    Po = (Chamber_pressure_stage1[mixture] if stage_number == 1 
-                       else Chamber_pressure_stage2[mixture])
+    Po = Chamber_pressure_stage[mixture]
+
     return 237.8*(Thrust/Po)**0.9375

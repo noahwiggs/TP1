@@ -3,6 +3,16 @@ import math
 
 import Mass_functions as Mfunc
 
+from dictionaries import(
+     Thrust_stage1,
+     Thrust_stage2,
+     Expansion_ratio_stage1,
+     Expansion_ratio_stage2,
+     Chamber_pressure_stage1,
+     Chamber_pressure_stage2
+)
+
+
 # Initial thrust to weight ratio of >= 1.3 for stage 1
 # Initial thrust to weight ratio of >= 0.76 for subsequent stages
 
@@ -40,8 +50,6 @@ def thrust_convergance(
         stage_2_other_masses    : float,
         stage_1_mixture         : str,
         stage_2_mixture         : str,
-        stage_1_engine_thrust   : Dict[str, int],
-        stage_2_engine_thrust   : Dict[str, int],
     )-> Tuple[float, float]:
     """
     Inputs:
@@ -91,8 +99,6 @@ def thrust_convergance(
             stage_2_thrust_req,
             stage_1_mixture,
             stage_2_mixture,
-            stage_1_engine_thrust,
-            stage_2_engine_thrust
         )
 
         # use new gross masses to calculate new thrust required
@@ -120,8 +126,6 @@ def thrust_mass_calculations(
         stage_2_thrust_req      : float,
         stage_1_mixture         : str,
         stage_2_mixture         : str,
-        stage_1_engine_thrust   : Dict[str, int],
-        stage_2_engine_thrust   : Dict[str, int]
         )-> Tuple[float, float]:
     """
     Inputs:
@@ -144,24 +148,24 @@ def thrust_mass_calculations(
     on thrust and then sums the total mass of each stage.
     """
     # find number of engines required
-    stage_1_engine_count = math.ceil(stage_1_thrust_req / stage_1_engine_thrust[stage_1_mixture])
-    stage_2_engine_count = math.ceil(stage_2_thrust_req / stage_2_engine_thrust[stage_2_mixture])
+    stage_1_engine_count = math.ceil(stage_1_thrust_req / Thrust_stage1[stage_1_mixture])
+    stage_2_engine_count = math.ceil(stage_2_thrust_req / Thrust_stage2[stage_2_mixture])
 
     # find thrust per engine
     stage_1_tpe = stage_1_thrust_req / stage_1_engine_count
     stage_2_tpe = stage_2_thrust_req / stage_2_engine_count
 
     # find total engine mass
-    stage_1_total_engine_mass = stage_1_engine_count * Mfunc.Rocket_Engine(stage_1_tpe, stage_1_mixture, 1)
-    stage_2_total_engine_mass = stage_2_engine_count * Mfunc.Rocket_Engine(stage_2_tpe, stage_2_mixture, 2)
+    stage_1_total_engine_mass = stage_1_engine_count * Mfunc.Rocket_Engine(stage_1_tpe, stage_1_mixture, Expansion_ratio_stage1)
+    stage_2_total_engine_mass = stage_2_engine_count * Mfunc.Rocket_Engine(stage_2_tpe, stage_2_mixture, Expansion_ratio_stage2)
 
     # find thrust structure mass
     stage_1_thrust_struct_mass = Mfunc.Struct_Mass(stage_1_thrust_req)
     stage_2_thrust_struct_mass = Mfunc.Struct_Mass(stage_2_thrust_req)
 
     # find gimbal mass
-    stage_1_gimbal_mass = Mfunc.M_gimbals(stage_1_thrust_req, stage_1_mixture, 1)
-    stage_2_gimbal_mass = Mfunc.M_gimbals(stage_2_thrust_req, stage_2_mixture, 2)
+    stage_1_gimbal_mass = Mfunc.M_gimbals(stage_1_thrust_req, stage_1_mixture, Chamber_pressure_stage1)
+    stage_2_gimbal_mass = Mfunc.M_gimbals(stage_2_thrust_req, stage_2_mixture, Chamber_pressure_stage2)
 
     # recalculate total mass of stage 1 and stage 2
     # does stage_2_other_masses include payload? if so remove from line under

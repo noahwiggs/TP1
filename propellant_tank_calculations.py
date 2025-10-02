@@ -1,14 +1,13 @@
 from typing import Tuple, Dict
 import numpy as np
 from scipy.optimize import fsolve
+from dictionaries import fuel_ratios, prop_densities
 
 def find_prop_mass_volume(
         propellant_mass: float, 
         oxidizer: str, 
         fuel: str, 
         mixture: str, 
-        fuel_ratios: Dict[str, float],
-        prop_densities: Dict[str, int]
     ) -> Tuple[float, float, float, float]:
     """
     Input:
