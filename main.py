@@ -56,13 +56,13 @@ def main():
     # determine mass of other elements
 
     # TODO: Fairing area
-    
+
     # fairing_mass = Mfunc.M_fairing(A_fairing)
     avionic_mass = Mfunc.M_avionic(m_0)
 
     # TODO : 
-    # rocket_height = ...
-    # wiring_mass = Mfunc.M_wiring(m_0, rocket_height)
+    # stage_length = ...
+    # wiring_mass = Mfunc.M_wiring(m_0, stage_length)
 
     # find thrust required
     # TODO: Find other masses
