@@ -76,6 +76,11 @@ def main():
     # s1_m_0 *= 1.3
     # s2_m_2 *= 1.3
 
+    # TODO: calculate all inert masses
+
+    # TODO: calculate cost
+
+    # TODO: find inert mass fraction
 
 
     # we want a table of the mass of each subsystem
