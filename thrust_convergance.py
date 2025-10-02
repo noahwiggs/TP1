@@ -33,23 +33,35 @@ Process:
     - Use these masses, along with the masses we found 
 """
 
-def thrust_component_mass(
-        stage_1_gross_mass: float,
-        stage_2_gross_mass: float,
-        stage_1_mixture: str,
-        stage_2_mixture: str,
+def thrust_convergance(
+        stage_1_gross_mass      : float,
+        stage_2_gross_mass      : float,
+        m_pr_1                  : float,
+        m_pr_2                  : float,
+        m_pl                    : float,
+        stage_1_other_masses    : float,
+        stage_2_other_masses    : float,
+        stage_1_mixture         : str,
+        stage_2_mixture         : str,
     )-> Tuple[float, float]:
     """
     Inputs:
-    stage_1_mass (float): the total mass of stage 1, (gross mass)) (kg)
-    stage_2_mass (float): the total mass of stage 2
-
-    stage_1_mixture (str): name of stage 1 mixture
-    stage_2_mixture (str): name of stage 2 mixture
+        stage_1_gross_mass    (float): gross mass calculation from part 1,
+        stage_2_gross_mass    (float): gross mass calculation from part 1,
+        m_pr_1                (float): propellant mass calculation from part 1,
+        m_pr_2                (float): propellant mass calculation from part 1,
+        m_pl                  (float): required payload mass,
+        stage_1_other_masses  (float): masses calculated in this section,
+        stage_2_other_masses  (float): masses calculated in this section,
+        stage_1_mixture       (str)  : name of mixture
+        stage_2_mixture       (str)  : name of mixture
 
     Outputs:
+        stage_1_thrust_req (float): the required thrust for stage 1
+        stage_2_thrust_req (float): the required thrust for stage 2
 
-
+    This function calculates the thrust required, finds mass of components required to meet the thrust,
+    updates the new thrust required based off updated mass and iterates until we converge upon a required thrust
     """
 
     # Initial values
@@ -57,6 +69,77 @@ def thrust_component_mass(
     stage_1_thrust_req = T_W_req_stage_1 * g_0 * stage_1_gross_mass
     stage_2_thrust_req = T_W_req_stage_2 * g_0 * stage_2_gross_mass
 
+    tolerance = 1e-3
+    thrust_dif_1 = 100
+    thrust_dif_2 = thrust_dif_1
+
+    iterations = 0
+
+    # iterate to find convergence
+    while iterations < 1000:
+        # store/update previous values
+        stage_1_thrust_req_0 = stage_1_thrust_req
+        stage_2_thrust_req_0 = stage_2_thrust_req
+
+        # obtain new gross masses
+        stage_1_gross_mass, stage_2_gross_mass = thrust_mass_calculations(
+            m_pr_1,
+            m_pr_2,
+            m_pl,
+            stage_1_other_masses,
+            stage_2_other_masses,
+            stage_1_thrust_req, 
+            stage_2_thrust_req,
+            stage_1_mixture,
+            stage_2_mixture
+        )
+
+        # use new gross masses to calculate new thrust required
+        stage_1_thrust_req = T_W_req_stage_1 * g_0 * stage_1_gross_mass
+        stage_2_thrust_req = T_W_req_stage_2 * g_0 * stage_2_gross_mass
+
+        # check the difference between previous thrust required and new thrust required
+        thrust_dif_1 = abs(stage_1_thrust_req - stage_1_thrust_req_0) / stage_1_thrust_req_0
+        thrust_dif_2 = abs(stage_2_thrust_req - stage_2_thrust_req_0) / stage_2_thrust_req_0
+        # dividing by previous thrust req so we are considering percent change bc of large numbers
+
+        # if within tolerance break, we found the required thrust
+        if thrust_dif_1 < tolerance and thrust_dif_2 < tolerance:
+            break
+
+    return stage_1_thrust_req, stage_2_thrust_req
+
+def thrust_mass_calculations(
+        m_pr_1                  : float,
+        m_pr_2                  : float,
+        m_pl                    : float,
+        stage_1_other_masses    : float,
+        stage_2_other_masses    : float,
+        stage_1_thrust_req      : float, 
+        stage_2_thrust_req      : float,
+        stage_1_mixture         : str,
+        stage_2_mixture         : str,
+        )-> Tuple[float, float]:
+    """
+    Inputs:
+        m_pr_1                  (float) : propellant mass,
+        m_pr_2                  (float) : propellant mass,
+        m_pl                    (float) : payload mass,
+        stage_1_other_masses    (float) : masses found in part 2,
+        stage_2_other_masses    (float) : masses found in part 2,
+        stage_1_thrust_req      (float) : thrust for stage 1, 
+        stage_2_thrust_req      (float) : thrust for stage 2,
+        stage_1_mixture         (str)   : stage 1 mixture name,
+        stage_2_mixture         (str)   : stage 2 mixture name
+
+    Outputs:
+        stage_1_total_mass      (float) : total mass of stage 1
+        stage_2_total_mass      (float) : total mass of stage 2
+
+
+    This code finds the masses of components that depend 
+    on thrust and then sums the total mass of each stage.
+    """
     # find number of engines required
     stage_1_engine_count = math.ceil(stage_1_thrust_req / Thrust_stage1[stage_1_mixture])
     stage_2_engine_count = math.ceil(stage_2_thrust_req / Thrust_stage2[stage_2_mixture])
@@ -78,11 +161,8 @@ def thrust_component_mass(
     stage_2_gimbal_mass = mf.M_gimbals(stage_2_thrust_req, stage_2_mixture, 2)
 
     # recalculate total mass of stage 1 and stage 2
+    # does stage_2_other_masses include payload? if so remove from line under
+    stage_2_total_mass = m_pr_2 + stage_2_other_masses + stage_2_total_engine_mass + stage_2_gimbal_mass + stage_2_thrust_struct_mass + m_pl
+    stage_1_total_mass = m_pr_1 + stage_1_other_masses + stage_1_total_engine_mass + stage_1_gimbal_mass + stage_1_thrust_struct_mass + stage_2_total_mass
 
-
-
-    a = 0.1
-    b = 0.2
-
-
-    return a, b
+    return stage_1_total_mass, stage_2_total_mass
