@@ -37,7 +37,7 @@ def Check_Solid_and_Storables(
         tank_height     : float = np.nan, 
         Num_Tank        : int = 1,
 
-    )-> Tuple[float, float, float]:
+    )-> Tuple[float, float, float, float, float]:
 
     '''
     Inputs: 
@@ -48,9 +48,11 @@ def Check_Solid_and_Storables(
         tank_height         (Float) : Preferred tank height (m). If NaN, Calcs.find_cyl_tank_dim can compute height.
 
     Outputs: 
-        tank_total_mass             (Float) : Total mass of casing/tank/insulation (kg)
+        tank_total_mass     (Float) : Total mass of casing/tank/insulation (kg)
         tank_radius         (Float) : Final tank radius used (m)
         tank_height         (Float) : Final tank height used (m)
+        Tank_Mass           (Float) : Total tank mass
+        Insulation_Mass     (Float) : Total insulation mass
     '''
 
     # Check for valid propellant name
@@ -66,6 +68,8 @@ def Check_Solid_and_Storables(
     if mixture == 'Solids':
         # Solids only has casing mass
         tank_total_mass = Num_Tank*Mfunc.Motor_Casing(M_pr/Num_Tank)
+        Tank_Mass = 0
+        Insulation_mass = 0
 
     #Check if Storables
     elif mixture == 'Storables':
@@ -84,7 +88,8 @@ def Check_Solid_and_Storables(
             Num_Tank
         )
 
-        tank_total_mass = Calcs.find_tank_mass(Total_Volume, 'Storables', Num_Tank)
+        Tank_Mass = Calcs.find_tank_mass(Total_Volume, 'Storables', Num_Tank)
+        Insulation_mass = 0
 
     else:
         Fuel = mixture[4:]
@@ -114,4 +119,4 @@ def Check_Solid_and_Storables(
         tank_total_mass = Tank_Mass + Insulation_mass
 
 
-    return tank_total_mass, tank_radius, tank_height
+    return tank_total_mass, tank_radius, tank_height, Tank_Mass, Insulation_mass

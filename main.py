@@ -50,8 +50,8 @@ def main():
     
     # determine tank/insulation/casing properties
 
-    s1_t_n_insul_m, s1_t_r, s1_t_h = Check_Solid_and_Storables(s1_mixture, m_pr_1)
-    s2_t_n_insul_m, s2_t_rm, s2_t_h = Check_Solid_and_Storables(s2_mixture, m_pr_2)
+    s1_t_n_insul_m, s1_t_r, s1_t_h, s1_tank_m, s1_insul_m = Check_Solid_and_Storables(s1_mixture, m_pr_1)
+    s2_t_n_insul_m, s2_t_r, s2_t_h, s2_tank_m, s2_insul_m = Check_Solid_and_Storables(s2_mixture, m_pr_2)
 
     # determine mass of other elements
 
@@ -65,14 +65,20 @@ def main():
 
     # find thrust required
     # TODO: Find other masses
+    # stage_1_other_masses = ...
+    # stage_2_other_masses = ...
     # t_req1, t_req2 = tc.thrust_convergance(m_0, m_0_2, m_pr_1, m_pr_2, m_pl, stage_1_other_masses, stage_2_other_masses, s1_mixture, s2_mixture)
 
     # find total rocket mass from thrust
-    # s1_m_0, s2_m_0 = tc.thrust_mass_calculations(m_pr_1, m_pr_2, m_pl, stage_1_other_masses, stage_2_other_masses, t_req1, t_req2, s1_mixture, s2_mixture)
+    # s1_m_0, s2_m_0, X = tc.thrust_mass_calculations(m_pr_1, m_pr_2, m_pl, stage_1_other_masses, stage_2_other_masses, t_req1, t_req2, s1_mixture, s2_mixture)
     
     # mass margin
     # s1_m_0 *= 1.3
     # s2_m_2 *= 1.3
+
+
+
+    # we want a table of the mass of each subsystem
     
 
 
