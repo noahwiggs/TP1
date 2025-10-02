@@ -55,7 +55,8 @@ def main():
 
     # determine mass of other elements
 
-    # TODO: 
+    # TODO: Fairing area
+    
     # fairing_mass = Mfunc.M_fairing(A_fairing)
     avionic_mass = Mfunc.M_avionic(m_0)
 

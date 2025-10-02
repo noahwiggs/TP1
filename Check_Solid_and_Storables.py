@@ -41,7 +41,7 @@ def Check_Solid_and_Storables(
 
     '''
     Inputs: 
-        mixture                (String): Propellant Mixture (e.g. 'LOXRP1', 'Storables', 'Solids')
+        mixture             (String): Propellant Mixture (e.g. 'LOXRP1', 'Storables', 'Solids')
         M_pr                (Float) : Total mass of propellant (kg)
         Num_Tank            (Int)   : Number of identical tanks to split propellant across
         tank_radius         (Float) : Preferred tank radius (m). If tank_height is NaN, Calcs.find_cyl_tank_dim can compute height.
@@ -51,7 +51,7 @@ def Check_Solid_and_Storables(
         tank_total_mass     (Float) : Total mass of casing/tank/insulation (kg)
         tank_radius         (Float) : Final tank radius used (m)
         tank_height         (Float) : Final tank height used (m)
-        Tank_Mass           (Float) : Total tank mass
+        Tank_Mass           (Float) : Total tank/casing mass
         Insulation_Mass     (Float) : Total insulation mass
     '''
 
@@ -67,8 +67,14 @@ def Check_Solid_and_Storables(
     #Check if Solids
     if mixture == 'Solids':
         # Solids only has casing mass
+        _, solid_volume, _, _ = Calcs.find_prop_mass_volume(
+            M_pr,
+            'Solids',
+            'Solids',
+            'Solids',
+        )
         tank_total_mass = Num_Tank*Mfunc.Motor_Casing(M_pr/Num_Tank)
-        Tank_Mass = 0
+        Tank_Mass = tank_total_mass
         Insulation_mass = 0
 
     #Check if Storables
