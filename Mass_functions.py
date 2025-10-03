@@ -61,7 +61,7 @@ def M_avionic(Mo: float)-> float:
 # Wiring Mass
 # Inputs:
 #   Mo : Stage initial mass [kg]
-#   l  : Stage length [m]
+#   l  : Stage 1 length [m]
 # Output:
 #   Wiring mass [kg]
 def M_wiring(Mo: float, l: float)-> float:
