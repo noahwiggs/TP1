@@ -2,6 +2,7 @@ import mass_estimation_part2 as me2
 import Mass_functions as Mfunc
 import thrust_convergance as tc
 from Check_Solid_and_Storables import Check_Solid_and_Storables
+import Fairing_area as fa
 from dictionaries import (
     Isp_values,
     Thrust_stage1,
@@ -22,21 +23,14 @@ def main():
     3) Calculate heuristics
     4) Produce mass budget for each
 
-    """
-
-    """
-    --------------------------------
-    | DEFINE YOUR ROCKET PROPERTIES|
-    --------------------------------
-
-     Valid mixture names:
+    Valid mixture names:
         LOX_LH2
         LOX_LCH4
         LOX_RP1
         Solids
         Storables
     """
-    X = 0.5 #
+    X = 0.5 
     s1_mixture = 'LOX_LH2'
     s2_mixture = 'Storables'
     tank_amount = 1
@@ -49,15 +43,15 @@ def main():
         Isp_values)
     
     # determine tank/insulation/casing properties
-
     s1_t_n_insul_m, s1_t_r, s1_t_h, s1_tank_m, s1_insul_m = Check_Solid_and_Storables(s1_mixture, m_pr_1)
     s2_t_n_insul_m, s2_t_r, s2_t_h, s2_tank_m, s2_insul_m = Check_Solid_and_Storables(s2_mixture, m_pr_2)
 
     # determine mass of other elements
 
     # TODO: Fairing area
-
+    fairing_area = fa.fairing_area(s1_t_r,s1_t_h,s2_t_r,s2_t_h)
     # fairing_mass = Mfunc.M_fairing(A_fairing)
+    
     avionic_mass = Mfunc.M_avionic(m_0)
 
     # TODO : 
