@@ -33,7 +33,7 @@ Returns:
 def Check_Solid_and_Storables(
         mixture            : str, 
         M_pr            : float,
-        tank_radius     : float = 2.6, 
+        tank_radius     : float = np.nan, 
         tank_height     : float = np.nan, 
         Num_Tank        : int = 1,
 
