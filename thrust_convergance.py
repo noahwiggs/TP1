@@ -114,6 +114,8 @@ def thrust_convergance(
         if thrust_dif_1 < tolerance and thrust_dif_2 < tolerance:
             break
 
+        iteration += 1
+
     return stage_1_thrust_req, stage_2_thrust_req
 
 def thrust_mass_calculations(

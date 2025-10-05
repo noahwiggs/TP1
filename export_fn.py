@@ -1,35 +1,41 @@
 import pandas as pd
 
-def export(compiled_masses):
+def export(masses):
     rows = [
-        "Propellant",
-        "Propellant tanks",
-        "Propellant tank insulation",
-        "Engines",
-        "Thrust structure",
-        "Casing",
-        "Gimbals",
+        "Stage 1 Propellant",
+        "Stage 2 Propellant",
+        "Stage 1 Propellant tanks",
+        "Stage 2 Propellant tanks",
+        "Stage 1 Propellant tank insulation",
+        "Stage 2 Propellant tank insulation",
+        "Stage 1 Engines",
+        "Stage 2 Engines",
+        "Stage 1 Thrust structure",
+        "Stage 2 Thrust structure",
+        "Stage 1 Gimbals",
+        "Stage 2 Gimbals",
         "Avionics",
-        "Wiring",
+        "Stage 1 Wiring",
+        "Stage 2 Wiring",
         "Payload fairing",
         "Inter-tank fairing",
-        "Inter-stage fairing",
+        "Stage 1 Inter-stage fairing",
+        "Stage 2 Tank fairing",
         "Aft fairing"
-        "Total"
-        ]
-        
+    ]
+    
     df = pd.DataFrame({
-    "Subsystem": rows,
-    "Mass (kg)": compiled_masses,
+        "Subsystem": rows,
+        "Mass (kg)": masses,
     })
-
+    
     totals = pd.DataFrame({
-    "Subsystem": ["TOTAL"],
-    "Total Mass (kg)": [sum(compiled_masses)],
+        "Subsystem": ["TOTAL"],
+        "Mass (kg)": [sum(masses)],
     })
     
     df = pd.concat([df, totals], ignore_index=True)
-
+    
     df.to_csv("results.csv", index=False)
     
     print(df)

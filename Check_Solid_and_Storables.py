@@ -56,12 +56,12 @@ def Check_Solid_and_Storables(
 
     # Check for valid propellant name
     if mixture not in [
-        'LOX_LH2'
-        'LOX_LCH4'
-        'LOX_RP1'
-        'Solids'
+        'LOX_LH2',
+        'LOX_LCH4',
+        'LOX_RP1',
+        'Solids',
         'Storables']:
-        raise ValueError('Invalid mixture name, check naming convention in main')
+        raise ValueError('Invalid mixture name, check naming convention in dictionary')
     
     # set as needed
     oxidizer_tank_count = 1
@@ -69,16 +69,16 @@ def Check_Solid_and_Storables(
 
     
     #Check if Solids
-    if mixture == 'Solids':
+    if mixture == 'Solid':
         # set based off number of solid rocket motors needed
         num_of_casing = 1
 
         # Solids only has casing mass
         _, solid_volume, _, _ = Calcs.find_prop_mass_volume(
             M_pr,
-            'Solids',
-            'Solids',
-            'Solids',
+            'Solid',
+            'Solid',
+            'Solid',
         )
         _, casing_radius, casing_height = Calcs.find_cyl_tank_dim(solid_volume, tank_amount=num_of_casing)
 
@@ -109,7 +109,7 @@ def Check_Solid_and_Storables(
         tank_radius = oxi_r
 
     else:
-        Fuel = mixture[4:]
+        Fuel = mixture.split('_')[1]
         Oxidizer = 'LOX'
 
         oxidizer_mass, oxidizer_volume, fuel_mass, fuel_volume = Calcs.find_prop_mass_volume(

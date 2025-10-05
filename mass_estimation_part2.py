@@ -81,6 +81,19 @@ def mass_estimation(
 
     return m_pr_1, m_pr_2, m_0, m_0_2
 
+def stage_nre_cost(m_in):
+    """
+    Estimate the total non-recurring engineering (NRE) cost of a launch vehicle stage
+
+    Input:
+    m_in (float): Inert mass of stage (kg)
+
+    Return:
+    stage_cost (float): Cost of stage (millions of dollars, 2025)
+    """
+    stage_cost = 13.52 * pow(m_in, 0.55)
+    return stage_cost
+
 
 
 

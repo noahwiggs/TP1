@@ -32,7 +32,7 @@ def main():
         LOX_LH2
         LOX_LCH4
         LOX_RP1
-        Solids
+        Solid
         Storables
     """
 
@@ -40,29 +40,20 @@ def main():
     X = 0.5 
     s1_prop_mix = 'LOX_LH2'
     s2_prop_mix = 'Storables'
-    tank_amount = 1
     
     ## start by finding part 1 values, gross and propellant mass of each stage
     m_pr_1, m_pr_2, m_0, m_0_2 = me2.mass_estimation(X, s1_prop_mix, s2_prop_mix, Isp_values)
-    
+    m_pl = 26000 # kg
+
     ## determine tank/insulation/casing properties
     
-    preferred_radius_1 = 2.6 #units?
-    preferred_height_1 = np.nan
-    preferred_radius_2 = 2.6 #units?
-    preferred_height_2 = np.nan
-
     s1_tank_radius, s1_total_height, s1_tanks_mass, s1_insul_mass = css.Check_Solid_and_Storables(
         s1_prop_mix,
         m_pr_1,
-        preferred_height_1,
-        preferred_radius_1
     )
     s2_tank_radius, s2_total_height, s2_tanks_mass, s2_insul_mass = css.Check_Solid_and_Storables(
         s2_prop_mix,
         m_pr_2,
-        preferred_height_2,
-        preferred_radius_2
     )
 
     # determine mass of other elements
@@ -71,7 +62,7 @@ def main():
     nose_h = 6      # nose cone height (m)
     nose_r = 2.6    # nose cone radius (m)
 
-    fairing_area = fa.fairing_area_cone(
+    f_nose_A, f_pl_A, f_s1_A, f_s2_A, f_if_A, f_aft_A = fa.fairing_area(
         s1_tank_radius,
         s1_total_height,
         s2_tank_radius,
@@ -80,52 +71,93 @@ def main():
         nose_r
     )
 
-    fairing_mass = Mfunc.M_fairing(fairing_area)
+    nose_fairing_m      = Mfunc.M_fairing(f_nose_A)
+    payload_fairing_m   = Mfunc.M_fairing(f_pl_A)
+    s1_tank_f_m         = Mfunc.M_fairing(f_s1_A)
+    s2_tank_f_m         = Mfunc.M_fairing(f_s2_A)
+    inter_fairing_m     = Mfunc.M_fairing(f_if_A)
+    aft_fairing_m       = Mfunc.M_fairing(f_aft_A)
 
-    avionic_mass = Mfunc.M_avionic(m_0)
+    s1_fairing_mass = s1_tank_f_m + inter_fairing_m + aft_fairing_m
+    s2_fairing_mass = s2_tank_f_m + payload_fairing_m + nose_fairing_m
 
-    # TODO : 
-    stage_1_length = 1
-    wiring_mass = Mfunc.M_wiring(m_0, stage_1_length)
+
+    avionic_mass = Mfunc.M_avionic(m_0) # attributed to second stage only
+
+    s1_wiring_mass = Mfunc.M_wiring(m_0, s1_total_height)
+    s2_wiring_mass = Mfunc.M_wiring(m_0_2, s2_total_height)
 
     # find thrust required
-    # TODO: Find other masses
-    # stage_1_other_masses = ...
-    # stage_2_other_masses = ...
-    # t_req1, t_req2 = tc.thrust_convergance(m_0, m_0_2, m_pr_1, m_pr_2, m_pl, stage_1_other_masses, stage_2_other_masses, s1_prop_mix, s2_prop_mix)
+    # other masses is the combination of all inert masses, minus thrust structure, engine, and gimbal masses
+    stage_1_other_masses = s1_tanks_mass + s1_insul_mass + s1_fairing_mass + s1_wiring_mass
+    stage_2_other_masses = s2_tanks_mass + s2_insul_mass + s2_fairing_mass + s2_wiring_mass + avionic_mass
+
+    t_req1, t_req2 = tc.thrust_convergance(m_0, m_0_2, m_pr_1, m_pr_2, m_pl, stage_1_other_masses, stage_2_other_masses, s1_prop_mix, s2_prop_mix)
 
     # find total rocket mass from thrust
-    # s1_m_0, s2_m_0, X = tc.thrust_mass_calculations(m_pr_1, m_pr_2, m_pl, stage_1_other_masses, stage_2_other_masses, t_req1, t_req2, s1_prop_mix, s2_prop_mix)
+    s1_m_0, s2_m_0, thrust_masses = tc.thrust_mass_calculations(m_pr_1, m_pr_2, m_pl, stage_1_other_masses, stage_2_other_masses, t_req1, t_req2, s1_prop_mix, s2_prop_mix)
     
+    s1_engine_mass = thrust_masses[0]   # Engines
+    s2_engine_mass = thrust_masses[1]
+    s1_t_struct_m = thrust_masses[2]    # Thrust structure
+    s2_t_struct_m = thrust_masses[3]
+    s1_gimbal_mass = thrust_masses[4]   # Gimbals
+    s2_gimbal_mass = thrust_masses[5]
+
+
     # mass margin
-    # s1_m_0 *= 1.3
-    # s2_m_2 *= 1.3
+    s1_m_0 *= 1.3
+    s2_m_0 *= 1.3
 
     # TODO: calculate all inert masses
+    masses = [
+        m_pr_1,             # Propellant
+        m_pr_2,
+        s1_tanks_mass,      # Propellant tanks -> is casing mass for solids
+        s2_tanks_mass,
+        s1_insul_mass,      # Propellant tank insulation
+        s2_insul_mass,
+        s1_engine_mass,     # Engines
+        s2_engine_mass,
+        s1_t_struct_m,      # Thrust structure
+        s2_t_struct_m,
+        s1_gimbal_mass,     # Gimbals
+        s2_gimbal_mass,
+        avionic_mass,       # Avionics -> stage 2 only
+        s1_wiring_mass,     # Wiring
+        s2_wiring_mass,
+        payload_fairing_m,  # Payload fairing
+        inter_fairing_m,    # Inter-tank fairing
+        s1_tank_f_m,        # Inter-stage fairing
+        s2_tank_f_m,
+        aft_fairing_m,      # Aft fairing
+    ]
+
+    STAGE_1_INERT_INDICIES = [0, 2, 4, 6, 8, 10, 13, 16, 17, 19]
+    STAGE_2_INERT_INDICIES = [3, 5, 7, 9, 11, 12, 14, 15, 18]
+
+    s1_inert_mass = sum([masses[i] for i in STAGE_1_INERT_INDICIES])
+    s2_inert_mass = sum([masses[i] for i in STAGE_2_INERT_INDICIES])
 
     # TODO: calculate cost
 
+    s1_cost = me2.stage_nre_cost(s1_inert_mass)
+    s2_cost = me2.stage_nre_cost(s2_inert_mass)
+
+    print(f'Stage 1 cost is: {s1_cost} millions of 2025 $')
+    print(f'Stage 2 cost is: {s2_cost} millions of 2025 $')
+
     # TODO: find inert mass fraction
 
-    ## Output results to csv table
-    
-    compiled_masses = [
-        m_pr_1 + m_pr_2,  # Propellant
-        ,  # Propellant tanks
-        ,  # Propellant tank insulation
-        ,  # Engines
-        ,  # Thrust structure
-        ,  # Casing (only solid, 0 for liquid)
-        ,  # Gimbals
-        ,  # Avionics
-        ,  # Wiring
-        ,  # Payload fairing
-        ,  # Inter-tank fairing
-        ,  # Inter-stage fairing
-        # Aft fairing
-    ]
+    s1_inert_m_frac = s1_inert_mass / m_0
+    s2_inert_m_frac = s2_inert_mass / m_0_2
 
-    exp.export(compiled_masses)
+    print(f'Stage 1 inert mass fraction is: {s1_inert_m_frac}')
+    print(f'Stage 2 inert mass fraction is: {s2_inert_m_frac}')
+
+
+    ## Output results to csv table
+    exp.export(masses)
 
 
 if __name__ == '__main__':

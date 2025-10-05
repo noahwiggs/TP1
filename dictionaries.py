@@ -96,7 +96,7 @@ prop_densities: Dict[str, int] ={
     'RP1'        : 820, 
     'LCH4'       : 423, 
     'Solid'      : 1680, 
-    'N204'       : 1442, 
+    'N2O4'       : 1442, 
     'UDMH'       : 791
     
 }
