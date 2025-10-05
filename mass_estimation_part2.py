@@ -1,13 +1,14 @@
-from typing import Tuple, Dict
+import numpy as np
+
+from typing import Tuple
+from dictionaries import Isp_values
+
 
 def mass_estimation(
         X           : float,
         mixture_1   : str,
         mixture_2   : str,
-        Isp_values  : Dict[str, int]
-        )-> Tuple[float, float, float, float]:
-    import numpy as np
-    import matplotlib.pyplot as plt
+    )-> Tuple[float, float, float, float]:
     """
     Calculates relevant mass values for use in heuristics from stage 1 dV fraction, X
     

@@ -5,17 +5,6 @@ import Check_Solid_and_Storables as css
 import Fairing_area as fa
 import export_fn as exp
 
-from dictionaries import (
-    Isp_values,
-    Thrust_stage1,
-    Thrust_stage2,
-    Expansion_ratio_stage1,
-    Expansion_ratio_stage2,
-    Chamber_pressure_stage1,
-    Chamber_pressure_stage2,
-    fuel_ratios,
-    prop_densities
-)
 
 def main():
     """
@@ -48,7 +37,7 @@ def main():
     print('------------------------------')
 
     ## start by finding part 1 values, gross and propellant mass of each stage
-    m_pr_1, m_pr_2, m_0, m_0_2 = me2.mass_estimation(X, s1_prop_mix, s2_prop_mix, Isp_values)
+    m_pr_1, m_pr_2, m_0, m_0_2 = me2.mass_estimation(X, s1_prop_mix, s2_prop_mix)
     # print(f"Debug - m_pr_1: {m_pr_1}")
     # print(f"Debug - m_pr_2: {m_pr_2}")
     # print(f"Debug - m_0: {m_0}")
