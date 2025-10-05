@@ -23,9 +23,9 @@ def main():
     """
 
     ## Inputs
-    X = 49                     # Percentage
+    X = 50                     # Percentage
     s1_prop_mix = 'LOX_LCH4'   # Stage 1 propellant name
-    s2_prop_mix = 'LOX_LH2'   # Stage 2 propellant name
+    s2_prop_mix = 'LOX_LCH4'   # Stage 2 propellant name
 
     # set to value, or find value based of engine configuration from number of engines
     stage_1_radius = 2.6 * 3
