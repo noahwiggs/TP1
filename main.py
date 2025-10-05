@@ -31,10 +31,11 @@ def main():
     stage_1_radius = 2.6 * 3
     stage_2_radius = 2.6
     
+    print('----------------------------------------')
     print(f'Stage 1 Delta-V split: {X}%')
     print('Stage 1 Mixture: ', s1_prop_mix)
     print('Stage 2 Mixture: ', s2_prop_mix)
-    print('------------------------------')
+    print('----------------------------------------')
 
     ## start by finding part 1 values, gross and propellant mass of each stage
     m_pr_1, m_pr_2, m_0, m_0_2 = me2.mass_estimation(X, s1_prop_mix, s2_prop_mix)
@@ -57,12 +58,12 @@ def main():
         tank_radius=stage_2_radius
     )
 
-    print('------------------------------')
+    print('----------------------------------------')
     print(f'Stage 1 Height: {s1_total_height:.2f} (m)')
     print(f'Stage 2 Height: {s2_total_height:.2f} (m)')
     print(f'Stage 1 L/D: {s1_total_height / s1_tank_radius:.2f}')
     print(f'Stage 2 L/D: {s2_total_height / s2_tank_radius:.2f}')
-    print('------------------------------')
+    print('----------------------------------------')
 
 
     # determine mass of other elements
@@ -144,20 +145,20 @@ def main():
     s1_inert_mass = sum([masses[i] for i in STAGE_1_INERT_INDICIES])
     s2_inert_mass = sum([masses[i] for i in STAGE_2_INERT_INDICIES])
 
-    print('------------------------------')
+    print('----------------------------------------')
     print(f'Stage 1 Inert Mass: {s1_inert_mass:.3f} (kg)')
     print(f'Stage 2 Inert Mass: {s2_inert_mass:.3f} (kg)')
-    print('------------------------------')
+    print('----------------------------------------')
 
     # TODO: calculate cost
 
     s1_cost = me2.stage_nre_cost(s1_inert_mass)
     s2_cost = me2.stage_nre_cost(s2_inert_mass)
 
-    print(f'Stage 1 cost is: {s1_cost:.3f} millions of 2025 $')
-    print(f'Stage 2 cost is: {s2_cost:.3f} millions of 2025 $')
+    print(f'Stage 1 cost is: {s1_cost:.3f} $M 2025')
+    print(f'Stage 2 cost is: {s2_cost:.3f} $M 2025')
     print(f'Total cost is {(s1_cost + s2_cost)/1000:.3f} $B 2025')
-    print('------------------------------')
+    print('----------------------------------------')
 
 
     # TODO: find inert mass fraction
@@ -171,7 +172,7 @@ def main():
 
     print(f'Stage 1 inert mass fraction is: {s1_inert_m_frac:.3f}')
     print(f'Stage 2 inert mass fraction is: {s2_inert_m_frac:.3f}')
-    print('------------------------------')
+    print('----------------------------------------')
 
     masses_for_output = [
         (m_pr_1+m_pr_2),                    # Propellant

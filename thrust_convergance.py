@@ -117,7 +117,7 @@ def thrust_convergance(
             stage_2_engine_count = math.ceil(stage_2_thrust_req / Thrust_stage2[stage_2_mixture])
             print(f'Stage 1 engine count: {stage_1_engine_count}')
             print(f'Stage 2 engine count: {stage_2_engine_count}')
-            print(f'------------------------------')
+            print('----------------------------------------')
             print(f'Stage 1 thrust: {stage_1_thrust_req/1000:.3f} (Kilo-Newtons)')
             print(f'Stage 2 thrust: {stage_2_thrust_req/1000:.3f} (Kilo-Newtons)')
             print(f'Stage 1 thrust weight ratio: {stage_1_thrust_req/(stage_1_gross_mass*9.81):.3f} ')

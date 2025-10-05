@@ -75,8 +75,8 @@ def mass_estimation(
     m_in_1 = delta_1 * m_0
     m_pr_1 = m_0 - m_in_1 - m_pl_1
 
-    print(f'Stage 1 Inert Mass Estimate: {m_in_1}')
-    print(f'Stage 2 Inert Mass Estimate: {m_in_2}')
+    print(f'Stage 1 Inert Mass Estimate: {m_in_1:.3f} (kg)')
+    print(f'Stage 2 Inert Mass Estimate: {m_in_2:.3f} (kg)')
 
     #Overwrite edge case if there is a negative mass (non-physical)
     if m_0 < 0:
