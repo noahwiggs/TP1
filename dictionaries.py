@@ -40,21 +40,21 @@ Thrust_stage2: Dict[str, int] = {
 
 # mixture name : Area ratio
 Expansion_ratio_stage1: Dict[str, float] = {
-    'LOX_LCH4'   : 2.4,
-    'LOX_LH2'    : 2.4,
-    'LOX_RP1'    : 3.7,
-    'Solid'      : 6.6,
-    'Storables'  : 1.5,
+    'LOX_LCH4'   : 34.34,
+    'LOX_LH2'    : 78,
+    'LOX_RP1'    : 37,
+    'Solid'      : 16,
+    'Storables'  : 26.2,
 
 }
 
 # mixture name : Area ratio
 Expansion_ratio_stage2: Dict[str, float] = {
-    'LOX_LCH4'   : 1.5,
-    'LOX_LH2'    : 2.15,
-    'LOX_RP1'    : 0.92,
-    'Solid'      : 2.34,
-    'Storables'  : 1.13,
+    'LOX_LCH4'   : 45,
+    'LOX_LH2'    : 84,
+    'LOX_RP1'    : 14.5,
+    'Solid'      : 56,
+    'Storables'  : 81.3,
 
 }
 
@@ -99,4 +99,22 @@ prop_densities: Dict[str, int] ={
     'N2O4'       : 1442, 
     'UDMH'       : 791
     
+}
+
+# prop name : exhaust diameter
+exhaust_diameter_stage1: Dict[str, float] ={
+    'LOX_LCH4'   : 2.4,
+    'LOX_LH2'    : 2.4,
+    'LOX_RP1'    : 3.7,
+    'Solid'      : 6.6,
+    'Storables'  : 1.5,
+}
+
+# prop name : exhaust diameter
+exhaust_diameter_stage2: Dict[str, float] ={
+    'LOX_LCH4'   : 1.5,
+    'LOX_LH2'    : 2.15,
+    'LOX_RP1'    : 0.92,
+    'Solid'      : 2.34,
+    'Storables'  : 1.13,
 }

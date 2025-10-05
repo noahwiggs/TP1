@@ -5,9 +5,6 @@ import Check_Solid_and_Storables as css
 import Fairing_area as fa
 import export_fn as exp
 
-import numpy as np
-
-
 from dictionaries import (
     Isp_values,
     Thrust_stage1,
@@ -42,7 +39,7 @@ def main():
     s2_prop_mix = 'LOX_LCH4'    # Stage 2 propellant name
 
     # set to value, or find value based of engine configuration from number of engines
-    stage_1_radius = 2.6 * 3
+    stage_1_radius = 2.6 * 2
     stage_2_radius = 2.6
     
     print(f'Stage 1 Delta-V split: {X}%')
