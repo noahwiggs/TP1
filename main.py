@@ -23,9 +23,9 @@ def main():
     """
 
     ## Inputs
-    X = 50                      # Percentage
+    X = 50                     # Percentage
     s1_prop_mix = 'LOX_LCH4'   # Stage 1 propellant name
-    s2_prop_mix = 'LOX_LCH4'    # Stage 2 propellant name
+    s2_prop_mix = 'LOX_LCH4'   # Stage 2 propellant name
 
     # set to value, or find value based of engine configuration from number of engines
     stage_1_radius = 2.6 * 3
@@ -156,7 +156,7 @@ def main():
 
     print(f'Stage 1 cost is: {s1_cost:.3f} millions of 2025 $')
     print(f'Stage 2 cost is: {s2_cost:.3f} millions of 2025 $')
-    print(f'Total cost is {(s1_cost + s2_cost)/1000:.3f} billions of 2025 $')
+    print(f'Total cost is {(s1_cost + s2_cost)/1000:.3f} $B 2025')
     print('------------------------------')
 
 
@@ -173,10 +173,57 @@ def main():
     print(f'Stage 2 inert mass fraction is: {s2_inert_m_frac:.3f}')
     print('------------------------------')
 
+    masses_for_output = [
+        (m_pr_1+m_pr_2),                    # Propellant
+        (s1_tanks_mass+s2_tanks_mass),      # Propellant tanks -> is casing mass for solids
+        (s1_insul_mass+s2_insul_mass),      # Propellant tank insulation
+        (s1_engine_mass+s2_engine_mass),    # Engines
+        (s1_t_struct_m+s2_t_struct_m),      # Thrust structure
+        (s1_gimbal_mass+s2_gimbal_mass),    # Gimbals
+        (avionic_mass),                     # Avionics -> stage 2 only
+        (s1_wiring_mass+s2_wiring_mass),    # Wiring
+        payload_fairing_m,                  # Payload fairing
+        inter_fairing_m,                    # Inter-stage fairing
+        (s1_tank_f_m+s2_tank_f_m),          # Tank fairings
+        aft_fairing_m,                      # Aft fairing
+    ]
+
+    stage_1_totals = (
+        m_pr_1 +                # Stage 1 propellant
+        s1_tanks_mass +         # Propellant tanks
+        s1_insul_mass +         # Tank insulation
+        s1_engine_mass +        # Engines
+        s1_t_struct_m +         # Thrust structure
+        s1_gimbal_mass +        # Gimbals
+        s1_wiring_mass +        # Wiring
+        s1_tank_f_m +           # Inter-tank fairing
+        aft_fairing_m           # Aft fairing
+    )
+
+    stage_2_totals = (
+        m_pr_2 +                # Stage 2 propellant
+        s2_tanks_mass +         # Propellant tanks
+        s2_insul_mass +         # Tank insulation 
+        s2_engine_mass +        # Engines
+        s2_t_struct_m +         # Thrust structure
+        s2_gimbal_mass +        # Gimbals
+        avionic_mass +          # Avionics (stage 2 only)
+        s2_wiring_mass +        # Wiring
+        payload_fairing_m +     # Payload fairing
+        inter_fairing_m +       # Inter-stage fairing
+        s2_tank_f_m             # Inter-tank fairing
+    )
+
+    # Overall totals
+    totals = [
+        stage_1_totals,
+        stage_2_totals,
+        stage_1_totals + stage_2_totals,
+        (s1_cost+s2_cost)
+    ]
 
     ## Output results to csv table
-    exp.export(masses)
-
+    exp.export(masses_for_output,totals)
 
 if __name__ == '__main__':
     main()

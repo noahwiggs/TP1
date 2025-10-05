@@ -1,41 +1,42 @@
 import pandas as pd
 
-def export(masses):
+def export(masses, totals):
     rows = [
-        "Stage 1 Propellant",
-        "Stage 2 Propellant",
-        "Stage 1 Propellant tanks",
-        "Stage 2 Propellant tanks",
-        "Stage 1 Propellant tank insulation",
-        "Stage 2 Propellant tank insulation",
-        "Stage 1 Engines",
-        "Stage 2 Engines",
-        "Stage 1 Thrust structure",
-        "Stage 2 Thrust structure",
-        "Stage 1 Gimbals",
-        "Stage 2 Gimbals",
+        "Propellant",
+        "Propellant tanks/casing",
+        "Propellant tank insulation",
+        "Engines",
+        "Thrust structure",
+        "Gimbals",
         "Avionics",
-        "Stage 1 Wiring",
-        "Stage 2 Wiring",
+        "Wiring",
         "Payload fairing",
         "Inter-tank fairing",
-        "Stage 1 Tank fairing",
-        "Stage 2 Tank fairing",
+        "Inter-stage fairing",
         "Aft fairing"
     ]
     
+    masses_t = [m / 1000 for m in masses]
+    totals_t = [
+        totals[0] / 1000,   # Stage 1 total mass
+        totals[1] / 1000,   # Stage 2 total mass
+        totals[2] / 1000,   # Total mass
+        totals[3] /1e3
+    ]
+
+
     df = pd.DataFrame({
         "Subsystem": rows,
-        "Mass (kg)": masses,
+        "Mass (t)": masses_t,
     })
     
-    totals = pd.DataFrame({
-        "Subsystem": ["TOTAL"],
-        "Mass (kg)": [sum(masses)],
-    })
-    
-    df = pd.concat([df, totals], ignore_index=True)
+    df = pd.concat([
+        df,
+        pd.DataFrame({"Subsystem": ["Stage 1 Total"], "Mass (t)": [totals_t[0]]}),
+        pd.DataFrame({"Subsystem": ["Stage 2 Total"], "Mass (t)": [totals_t[1]]}),
+        pd.DataFrame({"Subsystem": ["Total Mass"], "Mass (t)": [totals_t[2]]}),
+        pd.DataFrame({"Subsystem": ["Total Cost ($B, 2025)"], "Mass (t)": [totals_t[3]]})
+    ], ignore_index=True)
     
     df.to_csv("results.csv", index=False)
-    
-    print(df)
+    print(df.round(3))
