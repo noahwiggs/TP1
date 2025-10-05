@@ -6,7 +6,7 @@ import Fairing_area as fa
 import export_fn as exp
 
 import numpy as np
-import pandas as pd
+
 
 from dictionaries import (
     Isp_values,
@@ -52,16 +52,34 @@ def main():
     preferred_radius_2 = 2.6 #units?
     preferred_height_2 = np.nan
 
-    s1_tank_insul_combined_mass, s1_tank_radius, s1_tank_height, s1_tank_mass, s1_insul_mass = css.Check_Solid_and_Storables(s1_prop_mix, m_pr_1, preferred_height_1, preferred_radius_1)
-    s2_tank_insul_combined_mass, s2_tank_radius, s2_tank_height, s2_tank_mass, s2_insul_mass = css.Check_Solid_and_Storables(s2_prop_mix, m_pr_2, preferred_height_2, preferred_radius_2)
+    s1_tank_radius, s1_total_height, s1_tanks_mass, s1_insul_mass = css.Check_Solid_and_Storables(
+        s1_prop_mix,
+        m_pr_1,
+        preferred_height_1,
+        preferred_radius_1
+    )
+    s2_tank_radius, s2_total_height, s2_tanks_mass, s2_insul_mass = css.Check_Solid_and_Storables(
+        s2_prop_mix,
+        m_pr_2,
+        preferred_height_2,
+        preferred_radius_2
+    )
 
-    ## determine mass of other elements
+    # determine mass of other elements
 
     # determine fairing mass using surface area
-    # fairing_area = fa.fairing_area_cone(s1_t_r,s1_t_h,s2_t_r,s2_t_h)
-    a = 6 #physical meaning?
-    b = 2.6 #physical meaning?
-    fairing_area = fa.fairing_area_ellipsoid(a, b)
+    nose_h = 6      # nose cone height (m)
+    nose_r = 2.6    # nose cone radius (m)
+
+    fairing_area = fa.fairing_area_cone(
+        s1_tank_radius,
+        s1_total_height,
+        s2_tank_radius,
+        s2_total_height,
+        nose_h,
+        nose_r
+    )
+
     fairing_mass = Mfunc.M_fairing(fairing_area)
 
     avionic_mass = Mfunc.M_avionic(m_0)
@@ -92,19 +110,19 @@ def main():
     ## Output results to csv table
     
     compiled_masses = [
-    (m_pr_1+m_pr_2),  # Propellant
-    ,  # Propellant tanks
-    ,  # Propellant tank insulation
-    ,  # Engines
-    ,  # Thrust structure
-    ,  # Casing (only solid, 0 for liquid)
-    ,  # Gimbals
-    ,  # Avionics
-    ,  # Wiring
-    ,  # Payload fairing
-    ,  # Inter-tank fairing
-    ,  # Inter-stage fairing
-       # Aft fairing
+        m_pr_1 + m_pr_2,  # Propellant
+        ,  # Propellant tanks
+        ,  # Propellant tank insulation
+        ,  # Engines
+        ,  # Thrust structure
+        ,  # Casing (only solid, 0 for liquid)
+        ,  # Gimbals
+        ,  # Avionics
+        ,  # Wiring
+        ,  # Payload fairing
+        ,  # Inter-tank fairing
+        ,  # Inter-stage fairing
+        # Aft fairing
     ]
 
     exp.export(compiled_masses)

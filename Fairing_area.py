@@ -1,7 +1,9 @@
 import numpy as np
 
-# input fairing_area(stage 1 tank radius, stage 1 tank height, stage 2 tank radius, stage 2 tank height)
-def fairing_area_cone(st1_r,st1_h,st2_r,st2_h):
+# input fairing_area(stage 1 tank radius, stage 1 total height, stage 2 tank radius, stage 2 total height)
+def fairing_area_cone(st1_r,st1_h,st2_r,st2_h, nose_h, nose_r):
+    alpha = np.acos(nose_h/nose_r)
+    A_fairing=2*np.pi*(nose_h**2+(nose_h*nose_r*alpha)/np.sin(alpha))
     A_cone=np.pi*2.6*np.sqrt(2.6**2+10**2)
     A_pl=2*np.pi*2.6*14
     A_st2=2*np.pi*st2_r*st2_h
@@ -12,8 +14,10 @@ def fairing_area_cone(st1_r,st1_h,st2_r,st2_h):
 
     return A_fairing
 
-def fairing_area_ellipsoid(a, b):
-    alpha = np.acos(a/b)
-    A_fairing=2*np.pi()*(a**2+(a*b*alpha)/np.sin(alpha))
+# def fairing_area_ellipsoid(a, b):
+# NOTE: Implemented ontop
+#     alpha = np.acos(a/b)
+#     A_fairing=2*np.pi*(a**2+(a*b*alpha)/np.sin(alpha))
     
-    return A_fairing
+#     return A_fairing
+
