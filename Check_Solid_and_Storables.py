@@ -59,7 +59,7 @@ def Check_Solid_and_Storables(
         'LOX_LH2',
         'LOX_LCH4',
         'LOX_RP1',
-        'Solids',
+        'Solid',
         'Storables']:
         raise ValueError('Invalid mixture name, check naming convention in dictionary')
     
@@ -123,8 +123,8 @@ def Check_Solid_and_Storables(
         oxi_sur_A, oxi_r, oxi_h = Calcs.find_cyl_tank_dim(oxidizer_volume, tank_amount=oxidizer_tank_count)
         fuel_sur_A, fuel_r, fuel_h = Calcs.find_cyl_tank_dim(fuel_volume, tank_amount=fuel_tank_count)
 
-        oxi_tank_mass = Calcs.find_tank_mass(oxidizer_volume, 'Storables', tank_amount=oxidizer_tank_count)
-        fuel_tank_mass = Calcs.find_tank_mass(fuel_volume, 'Storables', tank_amount=fuel_tank_count)
+        oxi_tank_mass = Calcs.find_tank_mass(oxidizer_volume, Oxidizer, tank_amount=oxidizer_tank_count)
+        fuel_tank_mass = Calcs.find_tank_mass(fuel_volume, Fuel, tank_amount=fuel_tank_count)
 
         oxi_insul_mass = Calcs.find_insulation_mass(
             oxi_sur_A,

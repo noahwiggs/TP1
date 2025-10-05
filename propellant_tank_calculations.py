@@ -188,7 +188,13 @@ def find_tank_mass(
     """
 
     propellant = propellant.upper()
-    if propellant not in ['LH2', '']:
+    if propellant not in [
+        'LH2',
+        'LOX',
+        'LCH4',
+        'RP1',
+        'Solid',
+        'Storables']:
         raise ValueError('Unsupported Propellant type, use LH2 or leave blank')
     if not isinstance(tank_amount, int) or tank_amount < 1:
         raise ValueError('Tank amount must be positive integer (defaults to 1)')
