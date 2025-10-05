@@ -12,7 +12,7 @@ def mass_estimation(
     Calculates relevant mass values for use in heuristics from stage 1 dV fraction, X
     
     Inputs:
-    X           (float) : stage 1 dV fraction
+    X           (float) : stage 1 dV fraction percentage
     mixture_1   (string): stage 1 Propellant Mixture
     mixture_2   (string): stage 2 Propellant Mixture
 
@@ -37,6 +37,9 @@ def mass_estimation(
 
     stage_1_Isp = Isp_values[mixture_1]
     stage_2_Isp = Isp_values[mixture_2]
+
+    # print(f'Debug - {stage_1_Isp}')
+    # print(f'Debug - {stage_2_Isp}')
 
 
     ## Stage 2
@@ -71,6 +74,9 @@ def mass_estimation(
     m_in_1 = delta_1 * m_0
     m_pr_1 = m_0 - m_in_1 - m_pl_1
 
+    print(f'Stage 1 Inert Mass Estimate: {m_in_1}')
+    print(f'Stage 2 Inert Mass Estimate: {m_in_2}')
+
     #Overwrite edge case if there is a negative mass (non-physical)
     if m_0 < 0:
         m_in_1 = np.nan
@@ -78,6 +84,11 @@ def mass_estimation(
         m_in_2 = np.nan
         m_pr_2 = np.nan
         m_0 = np.nan
+
+    # print(f"Debug - m_pr_1: {m_pr_1}")
+    # print(f"Debug - m_pr_2: {m_pr_2}")
+    # print(f"Debug - m_0: {m_0}")
+    # print(f"Debug - m_0_2: {m_0_2}")
 
     return m_pr_1, m_pr_2, m_0, m_0_2
 

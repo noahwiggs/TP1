@@ -2,8 +2,12 @@ import numpy as np
 
 # input fairing_area(stage 1 tank radius, stage 1 total height, stage 2 tank radius, stage 2 total height)
 def fairing_area(st1_r,st1_h,st2_r,st2_h, nose_h, nose_r):
-    alpha = np.acos(nose_h/nose_r)
-    A_nose_cone=2*np.pi*(nose_h**2+(nose_h*nose_r*alpha)/np.sin(alpha))
+    # prolate ellipsoid calculations
+    e = np.sqrt(1 - (nose_r**2 / nose_h**2))
+    A_ellipsoid = 2 * np.pi * nose_r**2 * (1 + (nose_h / (nose_r * e)) * np.arcsin(e))
+    # nose cone is half of the ellipsoid
+    A_nose_cone = A_ellipsoid / 2
+
     A_pl=2*np.pi*2.6*14
     A_st2=2*np.pi*st2_r*st2_h
     A_st1=2*np.pi*st1_r*st1_h

@@ -114,7 +114,7 @@ def thrust_convergance(
         if thrust_dif_1 < tolerance and thrust_dif_2 < tolerance:
             break
 
-        iteration += 1
+        iterations += 1
 
     return stage_1_thrust_req, stage_2_thrust_req
 
@@ -153,6 +153,8 @@ def thrust_mass_calculations(
     # find number of engines required
     stage_1_engine_count = math.ceil(stage_1_thrust_req / Thrust_stage1[stage_1_mixture])
     stage_2_engine_count = math.ceil(stage_2_thrust_req / Thrust_stage2[stage_2_mixture])
+    print(f'Stage 1 engine count: {stage_1_engine_count}')
+    print(f'Stage 2 engine count: {stage_2_engine_count}')
 
     # find thrust per engine
     stage_1_tpe = stage_1_thrust_req / stage_1_engine_count

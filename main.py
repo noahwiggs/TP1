@@ -32,17 +32,21 @@ def main():
         LOX_LH2
         LOX_LCH4
         LOX_RP1
-        Solid
-        Storables
+        Solid       # NOTE: singular
+        Storables   # NOTE: plural
     """
 
     ## Inputs
-    X = 0.5 
-    s1_prop_mix = 'LOX_LH2'
-    s2_prop_mix = 'Storables'
+    X = 50                      # Percentage
+    s1_prop_mix = 'LOX_LCH4'   # Stage 1 propellant name
+    s2_prop_mix = 'LOX_LCH4'    # Stage 2 propellant name
     
     ## start by finding part 1 values, gross and propellant mass of each stage
     m_pr_1, m_pr_2, m_0, m_0_2 = me2.mass_estimation(X, s1_prop_mix, s2_prop_mix, Isp_values)
+    # print(f"Debug - m_pr_1: {m_pr_1}")
+    # print(f"Debug - m_pr_2: {m_pr_2}")
+    # print(f"Debug - m_0: {m_0}")
+    # print(f"Debug - m_0_2: {m_0_2}")
     m_pl = 26000 # kg
 
     ## determine tank/insulation/casing properties
@@ -133,27 +137,33 @@ def main():
         aft_fairing_m,      # Aft fairing
     ]
 
-    STAGE_1_INERT_INDICIES = [0, 2, 4, 6, 8, 10, 13, 16, 17, 19]
+    STAGE_1_INERT_INDICIES = [2, 4, 6, 8, 10, 13, 16, 17, 19]
     STAGE_2_INERT_INDICIES = [3, 5, 7, 9, 11, 12, 14, 15, 18]
 
     s1_inert_mass = sum([masses[i] for i in STAGE_1_INERT_INDICIES])
     s2_inert_mass = sum([masses[i] for i in STAGE_2_INERT_INDICIES])
+
+    print(f'Stage 1 Inert Mass: {s1_inert_mass:.3f} (kg)')
+    print(f'Stage 2 Inert Mass: {s2_inert_mass:.3f} (kg)')
+
 
     # TODO: calculate cost
 
     s1_cost = me2.stage_nre_cost(s1_inert_mass)
     s2_cost = me2.stage_nre_cost(s2_inert_mass)
 
-    print(f'Stage 1 cost is: {s1_cost} millions of 2025 $')
-    print(f'Stage 2 cost is: {s2_cost} millions of 2025 $')
+    print(f'Stage 1 cost is: {s1_cost:.3f} millions of 2025 $')
+    print(f'Stage 2 cost is: {s2_cost:.3f} millions of 2025 $')
+    print(f'Total cost is {(s1_cost + s2_cost)/1000:.3f} billions of 2025 $')
+
 
     # TODO: find inert mass fraction
 
     s1_inert_m_frac = s1_inert_mass / m_0
     s2_inert_m_frac = s2_inert_mass / m_0_2
 
-    print(f'Stage 1 inert mass fraction is: {s1_inert_m_frac}')
-    print(f'Stage 2 inert mass fraction is: {s2_inert_m_frac}')
+    print(f'Stage 1 inert mass fraction is: {s1_inert_m_frac:.3f}')
+    print(f'Stage 2 inert mass fraction is: {s2_inert_m_frac:.3f}')
 
 
     ## Output results to csv table
