@@ -80,8 +80,16 @@ def Check_Solid_and_Storables(
             'Solid',
             'Solid',
         )
-        _, casing_radius, casing_height = Calcs.find_cyl_tank_dim(solid_volume, tank_amount=num_of_casing)
 
+        # find dimensions
+        _, casing_radius, casing_height = Calcs.find_cyl_tank_dim(
+            solid_volume, 
+            radius=tank_radius, 
+            height=tank_height, 
+            tank_amount=num_of_casing
+        )
+
+        # prepare return values
         Tank_Mass = Num_Tank*Mfunc.Motor_Casing(M_pr/Num_Tank)
         Insulation_mass = 0
         tank_radius = casing_radius
@@ -91,56 +99,76 @@ def Check_Solid_and_Storables(
     elif mixture == 'Storables':
 
         # Storables does not need insulation
-        oxidizer_mass, oxidizer_volume, fuel_mass, fuel_volume = Calcs.find_prop_mass_volume(
+        # find oxidizer/fuel volume
+        _, oxidizer_volume, _, fuel_volume = Calcs.find_prop_mass_volume(
             M_pr,
             'Storables',
             'Storables',
             'Storables',
         )
-        oxi_sur_A, oxi_r, oxi_h = Calcs.find_cyl_tank_dim(oxidizer_volume, tank_amount=oxidizer_tank_count)
-        fuel_sur_A, fuel_r, fuel_h = Calcs.find_cyl_tank_dim(fuel_volume, tank_amount=fuel_tank_count)
 
+        # dimensions
+        oxi_sur_A, oxi_r, oxi_h     = Calcs.find_cyl_tank_dim(
+            oxidizer_volume, 
+            radius=tank_radius, 
+            height=tank_height, 
+            tank_amount=oxidizer_tank_count
+        )
+        fuel_sur_A, _, fuel_h  = Calcs.find_cyl_tank_dim(
+            fuel_volume, 
+            radius=tank_radius, 
+            height=tank_height, 
+            tank_amount=fuel_tank_count
+        )
+
+        # find tank masses
         oxi_tank_mass = Calcs.find_tank_mass(oxidizer_volume, 'Storables', tank_amount=oxidizer_tank_count)
         fuel_tank_mass = Calcs.find_tank_mass(fuel_volume, 'Storables', tank_amount=fuel_tank_count)
 
+        # prepare return values
         Tank_Mass = oxi_tank_mass + fuel_tank_mass
         Insulation_mass = 0
         total_height = oxi_h + fuel_h
         tank_radius = oxi_r
 
     else:
+        # prepare strings
         Fuel = mixture.split('_')[1]
         Oxidizer = 'LOX'
 
-        oxidizer_mass, oxidizer_volume, fuel_mass, fuel_volume = Calcs.find_prop_mass_volume(
+        # find oxidizer/fuel volume
+        _, oxidizer_volume, _, fuel_volume = Calcs.find_prop_mass_volume(
             M_pr,
             Oxidizer,
             Fuel,
             mixture,
         )
 
+        # dimensions
+        oxi_sur_A, oxi_r, oxi_h = Calcs.find_cyl_tank_dim(
+            oxidizer_volume, 
+            radius=tank_radius, 
+            height=tank_height, 
+            tank_amount=oxidizer_tank_count
+        )
+        fuel_sur_A, _, fuel_h = Calcs.find_cyl_tank_dim(
+            fuel_volume, 
+            radius=tank_radius, 
+            height=tank_height, 
+            tank_amount=fuel_tank_count
+        )
 
-        oxi_sur_A, oxi_r, oxi_h = Calcs.find_cyl_tank_dim(oxidizer_volume, tank_amount=oxidizer_tank_count)
-        fuel_sur_A, fuel_r, fuel_h = Calcs.find_cyl_tank_dim(fuel_volume, tank_amount=fuel_tank_count)
-
+        # find masses
         oxi_tank_mass = Calcs.find_tank_mass(oxidizer_volume, Oxidizer, tank_amount=oxidizer_tank_count)
         fuel_tank_mass = Calcs.find_tank_mass(fuel_volume, Fuel, tank_amount=fuel_tank_count)
 
-        oxi_insul_mass = Calcs.find_insulation_mass(
-            oxi_sur_A,
-            Num_Tank,
-            Oxidizer
-        )
-        fuel_insul_mass = Calcs.find_insulation_mass(
-            fuel_sur_A,
-            fuel_tank_count,
-            Fuel
-        )
+        oxi_insul_mass = Calcs.find_insulation_mass(oxi_sur_A, Num_Tank, Oxidizer)
+        fuel_insul_mass = Calcs.find_insulation_mass(fuel_sur_A, fuel_tank_count, Fuel)
 
         Tank_Mass = oxi_tank_mass + fuel_tank_mass
         Insulation_mass = oxi_insul_mass + fuel_insul_mass
 
-
+        # prepare return values
         tank_radius = oxi_r
         total_height = oxi_h + fuel_h
 

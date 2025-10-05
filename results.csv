@@ -3,20 +3,20 @@ Stage 1 Propellant,4936857.045556659
 Stage 2 Propellant,330887.51144773385
 Stage 1 Propellant tanks,72064.20908436371
 Stage 2 Propellant tanks,4830.025781247958
-Stage 1 Propellant tank insulation,5278.4355398827
+Stage 1 Propellant tank insulation,3137.4402527269444
 Stage 2 Propellant tank insulation,502.12051904521263
-Stage 1 Engines,60986.33352879057
-Stage 2 Engines,3082.440299882406
-Stage 1 Thrust structure,15958.953812607566
-Stage 2 Thrust structure,762.7313305475759
-Stage 1 Gimbals,459.13094945347484
-Stage 2 Gimbals,85.45014690077207
+Stage 1 Engines,60410.54909197702
+Stage 2 Engines,2549.372814418235
+Stage 1 Thrust structure,15803.468595268076
+Stage 2 Thrust structure,633.0115571868029
+Stage 1 Gimbals,454.9360148232775
+Stage 2 Gimbals,71.74850617940778
 Avionics,2762.278387460173
-Stage 1 Wiring,10435.310511051626
+Stage 1 Wiring,6456.669652460919
 Stage 2 Wiring,1429.8777696884988
 Payload fairing,2557.2820999627397
-Inter-tank fairing,231.24700633192424
-Stage 1 Inter-stage fairing,4338.726030864737
-Stage 2 Tank fairing,80991.70642720818
-Aft fairing,434.931477938887
-TOTAL,5534935.74770762
+Inter-tank fairing,1930.160179166735
+Stage 1 Tank fairing,31480.72084837704
+Stage 2 Tank fairing,4338.726030864737
+Aft fairing,1538.5452847330673
+TOTAL,5480695.699474343

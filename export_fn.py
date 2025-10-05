@@ -19,7 +19,7 @@ def export(masses):
         "Stage 2 Wiring",
         "Payload fairing",
         "Inter-tank fairing",
-        "Stage 1 Inter-stage fairing",
+        "Stage 1 Tank fairing",
         "Stage 2 Tank fairing",
         "Aft fairing"
     ]

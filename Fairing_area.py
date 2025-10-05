@@ -16,7 +16,7 @@ def fairing_area(st1_r,st1_h,st2_r,st2_h, nose_h, nose_r):
     # s1_combined_A = A_st1 + A_aft
     # s2_combined_A = A_nose_cone + A_pl + A_st2 + A_if
 
-    return A_nose_cone, A_pl, A_st2, A_st1, A_if, A_aft
+    return A_nose_cone, A_pl, A_st1, A_st2, A_if, A_aft
 
 # def fairing_area_ellipsoid(a, b):
 # NOTE: Implemented ontop
