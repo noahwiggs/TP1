@@ -23,9 +23,9 @@ def main():
     """
 
     ## Inputs
-    X = 50                     # Percentage
-    s1_prop_mix = 'LOX_LCH4'   # Stage 1 propellant name
-    s2_prop_mix = 'LOX_LCH4'   # Stage 2 propellant name
+    X = 44                    # Percentage
+    s1_prop_mix = 'LOX_RP1'   # Stage 1 propellant name
+    s2_prop_mix = 'LOX_LH2'   # Stage 2 propellant name
 
     # set to value, or find value based of engine configuration from number of engines
     stage_1_radius = 2.6 * 3
@@ -152,23 +152,30 @@ def main():
 
     # TODO: calculate cost
 
+    s1_inert_mass_w_margin = 1.3 * s1_inert_mass
+    s2_inert_mass_w_margin = 1.3 * s2_inert_mass
+
     s1_cost = me2.stage_nre_cost(s1_inert_mass)
     s2_cost = me2.stage_nre_cost(s2_inert_mass)
+
+    s1_cost_with_margin = me2.stage_nre_cost(s1_inert_mass_w_margin)
+    s2_cost_with_margin = me2.stage_nre_cost(s2_inert_mass_w_margin)
 
     print(f'Stage 1 cost is: {s1_cost:.3f} $M 2025')
     print(f'Stage 2 cost is: {s2_cost:.3f} $M 2025')
     print(f'Total cost is {(s1_cost + s2_cost)/1000:.3f} $B 2025')
     print('----------------------------------------')
+    print(f'Stage 1 cost with margin is: {s1_cost_with_margin:.3f} $M 2025')
+    print(f'Stage 2 cost with margin is: {s2_cost_with_margin:.3f} $M 2025')
+    print(f'Total cost is {(s1_cost_with_margin + s2_cost_with_margin)/1000:.3f} $B 2025')
+    print('----------------------------------------')
+
 
 
     # TODO: find inert mass fraction
 
     s1_inert_m_frac = s1_inert_mass / s1_m_0
     s2_inert_m_frac = s2_inert_mass / s2_m_0
-
-    # mass margin
-    s1_m_0 *= 1.3
-    s2_m_0 *= 1.3
 
     print(f'Stage 1 inert mass fraction is: {s1_inert_m_frac:.3f}')
     print(f'Stage 2 inert mass fraction is: {s2_inert_m_frac:.3f}')
@@ -191,19 +198,19 @@ def main():
 
     stage_1_totals = (
         m_pr_1 +                # Stage 1 propellant
-        s1_tanks_mass +         # Propellant tanks
+        1.3*(s1_tanks_mass +         # Propellant tanks
         s1_insul_mass +         # Tank insulation
         s1_engine_mass +        # Engines
         s1_t_struct_m +         # Thrust structure
         s1_gimbal_mass +        # Gimbals
         s1_wiring_mass +        # Wiring
         s1_tank_f_m +           # Inter-tank fairing
-        aft_fairing_m           # Aft fairing
+        aft_fairing_m)           # Aft fairing
     )
 
     stage_2_totals = (
         m_pr_2 +                # Stage 2 propellant
-        s2_tanks_mass +         # Propellant tanks
+        1.3*(s2_tanks_mass +         # Propellant tanks
         s2_insul_mass +         # Tank insulation 
         s2_engine_mass +        # Engines
         s2_t_struct_m +         # Thrust structure
@@ -212,16 +219,20 @@ def main():
         s2_wiring_mass +        # Wiring
         payload_fairing_m +     # Payload fairing
         inter_fairing_m +       # Inter-stage fairing
-        s2_tank_f_m             # Inter-tank fairing
+        s2_tank_f_m)             # Inter-tank fairing
     )
 
     # Overall totals
+    cost_w_margin = s1_cost_with_margin + s2_cost_with_margin
+
     totals = [
         stage_1_totals,
         stage_2_totals,
         stage_1_totals + stage_2_totals,
-        (s1_cost+s2_cost)
+        (s1_cost+s2_cost),
+        cost_w_margin,
     ]
+
 
     ## Output results to csv table
     exp.export(masses_for_output,totals)
