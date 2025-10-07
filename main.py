@@ -24,8 +24,8 @@ def main():
 
     ## Inputs
     X = 50                     # Percentage
-    s1_prop_mix = 'LOX_LCH4'   # Stage 1 propellant name
-    s2_prop_mix = 'LOX_LCH4'   # Stage 2 propellant name
+    s1_prop_mix = 'LOX_LH2'   # Stage 1 propellant name
+    s2_prop_mix = 'LOX_LH2'   # Stage 2 propellant name
 
     # set to value, or find value based of engine configuration from number of engines
     stage_1_radius = 2.6 * 3
@@ -152,8 +152,8 @@ def main():
 
     # TODO: calculate cost
 
-    s1_cost = me2.stage_nre_cost(s1_inert_mass)
-    s2_cost = me2.stage_nre_cost(s2_inert_mass)
+    s1_cost = me2.stage_nre_cost(s1_inert_mass*1.3)
+    s2_cost = me2.stage_nre_cost(s2_inert_mass*1.3)
 
     print(f'Stage 1 cost is: {s1_cost:.3f} $M 2025')
     print(f'Stage 2 cost is: {s2_cost:.3f} $M 2025')
