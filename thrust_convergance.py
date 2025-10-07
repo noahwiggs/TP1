@@ -73,8 +73,8 @@ def thrust_convergance(
 
     # Initial values
     # find thrust required
-    stage_1_thrust_req = T_W_req_stage_1 * g_0 * stage_1_gross_mass
-    stage_2_thrust_req = T_W_req_stage_2 * g_0 * stage_2_gross_mass
+    stage_1_thrust_req = T_W_req_stage_1 * g_0 * stage_1_gross_mass * 1.3
+    stage_2_thrust_req = T_W_req_stage_2 * g_0 * stage_2_gross_mass * 1.3
 
     tolerance = 1e-3
     thrust_dif_1 = 100
@@ -102,8 +102,8 @@ def thrust_convergance(
         )
 
         # use new gross masses to calculate new thrust required
-        stage_1_thrust_req = T_W_req_stage_1 * g_0 * stage_1_gross_mass
-        stage_2_thrust_req = T_W_req_stage_2 * g_0 * stage_2_gross_mass
+        stage_1_thrust_req = T_W_req_stage_1 * g_0 * stage_1_gross_mass * 1.3
+        stage_2_thrust_req = T_W_req_stage_2 * g_0 * stage_2_gross_mass * 1.3
 
         # check the difference between previous thrust required and new thrust required
         thrust_dif_1 = abs(stage_1_thrust_req - stage_1_thrust_req_0) / stage_1_thrust_req_0
